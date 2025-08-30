@@ -5,35 +5,77 @@
       "sources": [
         "html"
       ],
-      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/wp-includes/css/dist/block-library/style.min.css"
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-includes/css/dist/block-library/style.min.css"
     },
     "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css": {
       "type": "css",
       "sources": [
         "html"
       ],
-      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
     },
     "./assets/wp-content/themes/pro-child/style.css": {
       "type": "css",
       "sources": [
         "html"
       ],
-      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/wp-content/themes/pro-child/style.css"
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-content/themes/pro-child/style.css"
     },
     "./assets/css": {
       "type": "css",
       "sources": [
         "html"
       ],
-      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/css"
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/css"
     },
-    "./assets/app.bundle.js": {
+    "./assets/wp-includes/js/jquery/jquery.min.js": {
       "type": "js",
       "sources": [
         "html"
       ],
-      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/app.bundle.js"
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-includes/js/jquery/jquery.min.js"
+    },
+    "./assets/wp-includes/js/jquery/jquery-migrate.min.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-includes/js/jquery/jquery-migrate.min.js"
+    },
+    "./assets/wp-includes/js/wp-emoji-release.min.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-includes/js/wp-emoji-release.min.js"
+    },
+    "./assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js"
+    },
+    "./assets/clipboard.js/1.5.12/clipboard.min.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/clipboard.js/1.5.12/clipboard.min.js"
+    },
+    "./assets/wp-content/themes/pro/framework/dist/js/site/x.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-content/themes/pro/framework/dist/js/site/x.js"
+    },
+    "./assets/wp-includes/js/comment-reply.min.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/assets/wp-includes/js/comment-reply.min.js"
     },
     "../../../../img/global/btn-circle-top-small.png": {
       "type": "image",
@@ -129,9 +171,9 @@
     ".png": {
       "type": "other",
       "sources": [
-        "./assets/app.bundle.js"
+        "./assets/wp-includes/js/wp-emoji-release.min.js"
       ],
-      "local_path": "/Users/tarek/app-T/theme-co-D/dist/.png"
+      "local_path": "/Users/tarek/app-T/theme-co-D/1-2/.png"
     }
   },
   "runtime_assets": [
@@ -139,11 +181,17 @@
     "/assets/wp-includes/css/dist/block-library/style.min.css",
     "/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
     "/assets/wp-content/themes/pro-child/style.css",
+    "/assets/wp-includes/js/jquery/jquery.min.js",
+    "/assets/wp-includes/js/jquery/jquery-migrate.min.js",
     "/assets/css",
-    "/assets/app.bundle.js"
+    "/assets/wp-includes/js/wp-emoji-release.min.js",
+    "/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+    "/assets/clipboard.js/1.5.12/clipboard.min.js",
+    "/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+    "/assets/wp-includes/js/comment-reply.min.js"
   ],
   "analysis_summary": {
-    "static_count": 19,
-    "runtime_count": 6
+    "static_count": 25,
+    "runtime_count": 12
   }
 }

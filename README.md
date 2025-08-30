@@ -74,7 +74,30 @@ npm install
 npx playwright install chromium
 ```
 
-## 📖 Usage
+## 🚀 Quick Start - Complete Automated Workflow
+
+For a fully automated end-to-end export with a single command:
+
+```bash
+# Complete automation: Export → Audit → Clean → Final Output
+node auto-export.js "https://example.com/page"
+
+# Example with local development site
+node auto-export.js "http://micro.local/1-2/"
+```
+
+This will automatically:
+1. **Fresh Export** - Download complete page with all assets
+2. **Arabic Audit** - Analyze with RTL reports and identify waste
+3. **Intelligent Cleanup** - Remove unused files safely
+4. **Final Output** - Create clean directory named after the page
+5. **Verification** - Test and validate the final result
+
+The final directory will be named based on the URL path (e.g., `1-2/` for `/1-2/` page).
+
+---
+
+## 📖 Manual Usage
 
 ### Basic Usage
 

@@ -1,0 +1,12 @@
+{
+  "source_url": "http://micro.local/1-2/",
+  "export_date": "2025-08-30T10:19:07.560Z",
+  "page_name": "1-2",
+  "workflow": "auto-export",
+  "steps": [
+    "Fresh Export",
+    "Arabic Audit",
+    "Intelligent Cleanup",
+    "Final Output Creation"
+  ]
+}
