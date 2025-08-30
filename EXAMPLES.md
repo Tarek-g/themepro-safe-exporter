@@ -1,6 +1,6 @@
 # Quick Start Example
 
-This example shows how to export a WordPress/ThemeCo page using the safe exporter.
+This example shows how to export a WordPress/ThemeCo page using the enhanced safe exporter with multi-viewport rendering.
 
 ## Prerequisites
 
@@ -32,12 +32,50 @@ node exporter_v2.js "https://example.com/page" --mode balanced --outfile optimiz
 ```
 Features: JS bundling and minification while preserving all functionality
 
-### 4. Custom Viewport Sizes for Better Responsive Capture
+### 4. Enhanced Multi-Viewport Rendering (Recommended)
 ```bash
 node exporter_v2.js "https://example.com/responsive-page" \
+  --mode safe \
+  --outfile responsive-export.html
+```
+This automatically tests all 5 responsive breakpoints:
+- XS (375x667) for mobile phones
+- SM (480x854) for large phones  
+- MD (768x1024) for tablets
+- LG (980x1200) for small desktops
+- XL (1366x900) for large screens
+
+### 5. Custom Viewport Override
+```bash
+node exporter_v2.js "https://example.com/page" \
   --mobile 414x896 \
   --desktop 1920x1080 \
-  --mode safe
+  --mode balanced
+```
+Note: Custom viewports will override the default XS and XL breakpoints
+
+## Enhanced Output Information
+
+The improved exporter now provides detailed information:
+
+```
+🚀 Starting export of: https://example.com/page
+📐 Using responsive breakpoints: XS(375), SM(480), MD(768), LG(980), XL(1366)
+🔄 Rendering multiple viewports for comprehensive responsive asset capture...
+📱 Rendering xs viewport (375x667)
+📱 Rendering sm viewport (480x854)
+📱 Rendering md viewport (768x1024)
+📱 Rendering lg viewport (980x1200)
+📱 Rendering xl viewport (1366x900)
+📆 Captured 34 unique resources across 5 viewports
+⬇️ Downloading 34 assets...
+💾 Downloaded: [asset URLs]
+📦 Inlined small asset: [small assets]
+⚠️ CORS blocked, keeping original URL: [blocked URLs]
+✅ Export complete → dist/enhanced-test.html (mode=safe)
+📱 Responsive viewports tested: 5
+💾 Total assets downloaded: 34
+📦 Assets inlined as data URIs: 6
 ```
 
 ## What Gets Exported

@@ -14,19 +14,21 @@ This tool creates a "Safe Mirror" of any WordPress/ThemeCo page by:
 
 ## ✨ Features
 
+- **Enhanced Multi-Viewport Rendering**: Tests 5 responsive breakpoints (XS, SM, MD, LG, XL) for comprehensive asset capture
 - **Maximum Compatibility**: Safe mode preserves everything to ensure 1:1 functionality
-- **Smart Asset Collection**: Captures assets from DOM parsing + Performance API
+- **Smart Asset Collection**: Captures assets from DOM parsing + Performance API across all viewports
 - **Lazy Loading Support**: Auto-scrolling and UI interaction to trigger lazy-loaded content
-- **Responsive Capture**: Multi-viewport rendering (mobile + desktop) for responsive assets
+- **Comprehensive Responsive Capture**: Multi-viewport rendering (XS: 375x667, SM: 480x854, MD: 768x1024, LG: 980x1200, XL: 1366x900)
 - **Inline Optimization**: Small assets (<10KB) are inlined as data URIs for better portability
 - **ThemeCo Optimized**: Special handling for ThemeCo accordion, tabs, and UI components
 - **CORS Fallback**: Keeps original URLs for blocked third-party resources
+- **Detailed Logging**: Comprehensive progress information and asset statistics
 
 ## 🚀 Installation
 
 ```bash
 # Clone the repository
-git clone <repository-url>
+git clone https://github.com/Tarek-g/themepro-safe-exporter.git
 cd themepro-safe-exporter
 
 # Install dependencies
@@ -88,26 +90,33 @@ node exporter_v2.js "https://yoursite.com/page" \
 ```
 dist/
 ├── index.html          # Main exported page
-├── manifest.json       # Export metadata
+├── manifest.json       # Export metadata with viewport details
 └── assets/            # All downloaded assets
     ├── css/           # Stylesheets
     ├── js/            # JavaScript files
     ├── images/        # Images and media
-    └── fonts/         # Font files
+    ├── fonts/         # Font files
+    └── wp-content/    # WordPress theme and plugin assets
 ```
 
 ## 🔧 How It Works
 
-1. **Page Rendering**: Opens the page in Chromium headless browser
-2. **Content Activation**: 
+1. **Multi-Viewport Page Rendering**: Opens the page in Chromium across 5 different viewport sizes
+2. **Responsive Breakpoint Testing**: 
+   - XS (375x667) for ≤480px devices
+   - SM (480x854) for ≤767px devices  
+   - MD (768x1024) for ≤979px devices
+   - LG (980x1200) for ≤1200px devices
+   - XL (1366x900) for >1200px devices
+3. **Content Activation**: 
    - Auto-scrolls to trigger lazy loading
    - Opens `<details>` elements
    - Clicks common accordion/tab toggles
-   - Captures in both mobile and desktop viewports
-3. **Asset Collection**: Gathers resources from DOM + Performance API
-4. **Download & Rewrite**: Downloads assets locally and updates all references
-5. **Optimization**: Inlines small assets, optionally bundles JS
-6. **Output**: Creates portable static site in `dist/` folder
+   - 500ms delay between viewports to protect server resources
+4. **Comprehensive Asset Collection**: Gathers resources from DOM + Performance API across all viewports
+5. **Download & Rewrite**: Downloads assets locally and updates all references
+6. **Optimization**: Inlines small assets, optionally bundles JS
+7. **Output**: Creates portable static site in `dist/` folder with detailed manifest
 
 ## 🎨 ThemeCo Pro Compatibility
 
