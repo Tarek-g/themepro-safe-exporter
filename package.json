@@ -1,0 +1,31 @@
+{
+  "name": "themepro-safe-exporter",
+  "version": "1.0.0",
+  "description": "High-compatibility safe exporter for ThemeCo Pro and WordPress pages",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "export": "node exporter_v2.js",
+    "test": "echo \"No tests specified yet\" && exit 0"
+  },
+  "keywords": [
+    "wordpress",
+    "themeco",
+    "exporter",
+    "static-site",
+    "playwright",
+    "web-scraping"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@playwright/test": "^1.47.0",
+    "axios": "^1.7.2",
+    "fs-extra": "^11.2.0",
+    "jsdom": "^24.0.0",
+    "esbuild": "^0.23.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
