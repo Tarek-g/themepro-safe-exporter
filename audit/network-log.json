@@ -1,10 +1,685 @@
 [
   {
     "url": "http://localhost:8082/",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756549988709,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549988736,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549988736,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549988736,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988736,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988737,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "blob:http://localhost:8082/d923e3f2-cd0b-4c1b-af48-16d270e2b185",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988830,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756549988878,
+    "status": 200,
+    "size": "354296"
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "xs",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549988942,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756549996023,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549996032,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549996032,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549996032,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996032,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996033,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "blob:http://localhost:8082/d2b2e6ad-0cd6-40ab-a133-826d5b48bf48",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996036,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756549996101,
+    "status": 200,
+    "size": "354296"
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "sm",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756549996160,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756550003185,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003195,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003196,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003196,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003196,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003196,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "blob:http://localhost:8082/66bb7181-6310-41cb-ac0c-7bf0ecb905d6",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003198,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756550003264,
+    "status": 200,
+    "size": "354296"
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "md",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550003320,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756550010431,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550010441,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550010441,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550010441,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010442,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "blob:http://localhost:8082/7cd986f6-869e-4581-93c5-239377e48d13",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010445,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756550010510,
+    "status": 200,
+    "size": "354296"
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "lg",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550010567,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756550017696,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "blob:http://localhost:8082/522cf37b-3d6b-4b7f-a41f-9adb69c3ab28",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017708,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756550017774,
+    "status": 200,
+    "size": "354296"
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "xl",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756550017834,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/",
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "document",
-    "timestamp": 1756549648700,
+    "timestamp": 1756550024999,
     "status": 200,
     "size": 0
   },
@@ -13,7 +688,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549648732,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -22,7 +697,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -31,7 +706,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -40,7 +715,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -49,7 +724,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -58,7 +733,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -67,7 +742,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -76,7 +751,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -85,7 +760,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -94,7 +769,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
@@ -103,16 +778,16 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648733,
+    "timestamp": 1756550025009,
     "status": 200,
     "size": 0
   },
   {
-    "url": "blob:http://localhost:8082/87ec5354-d269-4b98-84e4-ae53a81dc174",
+    "url": "blob:http://localhost:8082/7c759b19-aa9a-4b11-aa25-fdc0d8bcdcbb",
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648741,
+    "timestamp": 1756550025012,
     "status": 200,
     "size": "1330"
   },
@@ -121,7 +796,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "font",
-    "timestamp": 1756549648821,
+    "timestamp": 1756550025077,
     "status": 200,
     "size": "354296"
   },
@@ -130,7 +805,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549648886,
+    "timestamp": 1756550025129,
     "status": 200,
     "size": 0
   },
@@ -139,91 +814,115 @@
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "document",
-    "timestamp": 1756549655987
+    "timestamp": 1756550032100,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549655998
+    "timestamp": 1756550032111,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549655998
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549655998
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999
+    "timestamp": 1756550032112,
+    "status": 200,
+    "size": 0
   },
   {
-    "url": "blob:http://localhost:8082/587cca09-dc96-4493-b484-fec36a77d6cf",
+    "url": "blob:http://localhost:8082/6b9d9c6a-c44e-421e-bc48-dbddadddd64d",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549655999,
+    "timestamp": 1756550032115,
     "status": 200,
     "size": "1330"
   },
@@ -232,13 +931,17 @@
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "font",
-    "timestamp": 1756549656068
+    "timestamp": 1756550032180,
+    "status": 200,
+    "size": "354296"
   },
   {
     "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549656119
+    "timestamp": 1756550032242,
+    "status": 200,
+    "size": 0
   }
 ]

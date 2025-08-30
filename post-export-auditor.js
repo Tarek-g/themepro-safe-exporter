@@ -16,8 +16,13 @@ const DEFAULT_CONFIG = {
   export_dir: './dist',
   entry_html: 'index.html',
   viewports: [
-    { label: 'mobile', width: 390, height: 844 },
-    { label: 'desktop', width: 1366, height: 900 }
+    { label: 'xs', width: 375, height: 667 },     // ≤480px - small phones
+    { label: 'sm', width: 480, height: 854 },     // ≤767px - large phones  
+    { label: 'md', width: 768, height: 1024 },    // ≤979px - tablets
+    { label: 'lg', width: 980, height: 1200 },    // ≤1200px - small desktops
+    { label: 'xl', width: 1366, height: 900 },    // >1200px - large screens
+    { label: 'mobile', width: 390, height: 844 }, // Additional mobile test
+    { label: 'desktop', width: 1366, height: 900 } // Additional desktop test
   ],
   interactions: [
     '.x-accordion .x-accordion-toggle',
@@ -39,6 +44,7 @@ class PostExportAuditor {
     
     this.staticAssets = new Map();
     this.runtimeAssets = new Set();
+    this.viewportAssets = new Map(); // Track assets per viewport
     this.networkLog = [];
     this.consoleErrors = [];
     this.fileInventory = new Map();
@@ -306,10 +312,16 @@ class PostExportAuditor {
   }
 
   async runtimeAnalysis() {
-    console.log('🔬 Runtime analysis...');
+    console.log('🔬 Runtime analysis across all responsive breakpoints...');
+    console.log(`📱 Testing ${this.config.viewports.length} viewports: ${this.config.viewports.map(v => v.label).join(', ')}`);
     
     await this.startLocalServer();
     const browser = await chromium.launch();
+    
+    // Initialize viewport asset tracking
+    for (const viewport of this.config.viewports) {
+      this.viewportAssets.set(viewport.label, new Set());
+    }
     
     for (const viewport of this.config.viewports) {
       console.log(`📱 Testing ${viewport.label} (${viewport.width}x${viewport.height})`);
@@ -318,18 +330,22 @@ class PostExportAuditor {
         viewport: { width: viewport.width, height: viewport.height }
       });
       
+      const viewportRequests = [];
+      
       page.on('request', req => {
-        this.networkLog.push({
+        const requestData = {
           url: req.url(),
           viewport: viewport.label,
           method: req.method(),
           resourceType: req.resourceType(),
           timestamp: Date.now()
-        });
+        };
+        this.networkLog.push(requestData);
+        viewportRequests.push(requestData);
       });
       
       page.on('response', res => {
-        const request = this.networkLog.find(r => r.url === res.url());
+        const request = this.networkLog.find(r => r.url === res.url() && r.viewport === viewport.label);
         if (request) {
           request.status = res.status();
           request.size = res.headers()['content-length'] || 0;
@@ -360,6 +376,17 @@ class PostExportAuditor {
         const screenshotPath = path.join(this.auditDir, 'screenshots', `${viewport.label}.png`);
         await fs.writeFile(screenshotPath, screenshot);
         
+        // Track assets loaded in this viewport
+        viewportRequests.forEach(req => {
+          if (req.url.startsWith(`http://localhost:${this.config.server_port}`)) {
+            const localUrl = req.url.replace(`http://localhost:${this.config.server_port}`, '');
+            this.viewportAssets.get(viewport.label).add(localUrl);
+            this.runtimeAssets.add(localUrl);
+          }
+        });
+        
+        console.log(`   📊 ${viewport.label}: ${this.viewportAssets.get(viewport.label).size} assets loaded`);
+        
       } catch (error) {
         console.log(`⚠️ Error testing ${viewport.label}: ${error.message}`);
       }
@@ -369,16 +396,9 @@ class PostExportAuditor {
     
     await browser.close();
     
-    // Add actually loaded assets
-    this.networkLog.forEach(req => {
-      if (req.url.startsWith(`http://localhost:${this.config.server_port}`)) {
-        const localUrl = req.url.replace(`http://localhost:${this.config.server_port}`, '');
-        this.runtimeAssets.add(localUrl);
-      }
-    });
-    
-    console.log(`📊 Recorded ${this.networkLog.length} network requests`);
-    console.log(`⚠️ Found ${this.consoleErrors.length} console errors`);
+    console.log(`📊 Total network requests: ${this.networkLog.length}`);
+    console.log(`⚠️ Console errors found: ${this.consoleErrors.length}`);
+    console.log(`📈 Unique assets across all viewports: ${this.runtimeAssets.size}`);
   }
 
   async performAutoScroll(page) {
@@ -488,6 +508,7 @@ class PostExportAuditor {
         unused_size_kb: Math.round(unusedSize / 1024),
         waste_percentage: Math.round((unusedSize / totalSize) * 100)
       },
+      viewport_analysis: this.generateViewportAnalysis(),
       largest_unused_files: unusedFiles.slice(0, 10),
       unused_files_by_type: this.groupFilesByType(unusedFiles),
       console_errors: this.consoleErrors,
@@ -510,10 +531,59 @@ class PostExportAuditor {
     console.log(`   ✅ Used: ${usedFiles.size} (${Math.round(usedSize / 1024)} KB)`);
     console.log(`   🗑️  Unused: ${unusedFiles.length} (${Math.round(unusedSize / 1024)} KB)`);
     console.log(`   📈 Waste ratio: ${Math.round((unusedSize / totalSize) * 100)}%`);
+    console.log(`   📱 Viewports tested: ${this.config.viewports.length} (${this.config.viewports.map(v => v.label).join(', ')})`);
     
     if (this.consoleErrors.length > 0) {
       console.log(`   ⚠️  Console errors: ${this.consoleErrors.length}`);
     }
+  }
+
+  generateViewportAnalysis() {
+    const analysis = {
+      total_viewports: this.config.viewports.length,
+      responsive_breakpoints: ['xs', 'sm', 'md', 'lg', 'xl'],
+      viewport_details: {},
+      assets_by_viewport_count: {},
+      viewport_specific_assets: {}
+    };
+    
+    // Analyze assets per viewport
+    for (const [viewportLabel, assets] of this.viewportAssets) {
+      const viewport = this.config.viewports.find(v => v.label === viewportLabel);
+      if (viewport) {
+        analysis.viewport_details[viewportLabel] = {
+          width: viewport.width,
+          height: viewport.height,
+          assets_loaded: assets.size,
+          asset_list: Array.from(assets)
+        };
+        analysis.assets_by_viewport_count[viewportLabel] = assets.size;
+      }
+    }
+    
+    // Find viewport-specific assets (assets that only load in certain viewports)
+    const allAssets = new Set();
+    for (const assets of this.viewportAssets.values()) {
+      for (const asset of assets) {
+        allAssets.add(asset);
+      }
+    }
+    
+    for (const asset of allAssets) {
+      const viewportsUsingAsset = [];
+      for (const [viewportLabel, assets] of this.viewportAssets) {
+        if (assets.has(asset)) {
+          viewportsUsingAsset.push(viewportLabel);
+        }
+      }
+      
+      // If asset is not used in all viewports, it's viewport-specific
+      if (viewportsUsingAsset.length < this.config.viewports.length && viewportsUsingAsset.length > 0) {
+        analysis.viewport_specific_assets[asset] = viewportsUsingAsset;
+      }
+    }
+    
+    return analysis;
   }
 
   groupFilesByType(files) {
@@ -649,10 +719,29 @@ class PostExportAuditor {
     </div>
     
     <div class="section">
-        <h2>📱 Viewports Tested</h2>
-        ${report.viewports_tested.map(vp => 
-          `<div>📱 ${vp}</div>`
-        ).join('')}
+        <h2>📱 Responsive Viewport Analysis</h2>
+        <p>Tested across ${report.viewport_analysis.total_viewports} viewports including all responsive breakpoints: ${report.viewport_analysis.responsive_breakpoints.join(', ')}</p>
+        
+        <h3>Assets by Viewport</h3>
+        <div class="viewport-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin: 20px 0;">
+            ${Object.entries(report.viewport_analysis.viewport_details).map(([viewport, details]) => `
+                <div class="viewport-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px;">
+                    <h4>📱 ${viewport}</h4>
+                    <p><strong>Size:</strong> ${details.width}x${details.height}</p>
+                    <p><strong>Assets:</strong> ${details.assets_loaded}</p>
+                </div>
+            `).join('')}
+        </div>
+        
+        ${Object.keys(report.viewport_analysis.viewport_specific_assets).length > 0 ? `
+        <h3>Viewport-Specific Assets</h3>
+        <div class="warning">The following assets only load in specific viewports:</div>
+        <div class="file-list">
+            ${Object.entries(report.viewport_analysis.viewport_specific_assets).map(([asset, viewports]) => 
+              `<div>📄 ${asset} <em>(only in: ${viewports.join(', ')})</em></div>`
+            ).join('')}
+        </div>
+        ` : '<div class="success">✅ All assets load consistently across viewports</div>'}
     </div>
     
     <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; color: #666;">
