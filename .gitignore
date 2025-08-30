@@ -4,9 +4,18 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Output directory
+# Output directories
 dist/
 exports/
+final/
+audit/
+backup_unused/
+temp_export/
+
+# Generated output files (page-named directories)
+*/
+!.git/
+!node_modules/
 
 # Environment variables
 .env

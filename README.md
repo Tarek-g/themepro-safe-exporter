@@ -1,64 +1,28 @@
 # ThemeCo Pro Safe Exporter
 
-A high-compatibility static site exporter for ThemeCo Pro and WordPress pages that ensures everything works as intended without breaking functionality.
+A comprehensive static site exporter for ThemeCo Pro and WordPress pages with advanced responsive analysis, intelligent cleanup, and automated optimization workflows.
 
-## ✨ **Recent Updates**
+## ✨ **Key Features**
 
-### Enhanced Reporting & Local Testing (v2.1)
-- 📊 **Comprehensive Export Reports**: Detailed JSON reports with asset breakdowns, network captures, and recommendations
-- 🖥️ **Local Test Server**: Built-in HTTP server for testing exports (avoiding `file://` CORS issues)
-- 🔍 **Static Export Auditor**: Advanced dependency analysis, asset pruning, and fidelity verification
-- 🛡️ **Enhanced Error Handling**: Better navigation interruption handling with graceful degradation
+### 🚀 **Complete Automation**
+- **Single Command Workflow**: Export → Audit → Clean → Optimize in one command
+- **Responsive Analysis**: Tests across 7 viewports (XS, SM, MD, LG, XL, Mobile, Desktop)
+- **Intelligent Cleanup**: Removes unused files with automatic safety backups
+- **English Reports**: Professional LTR audit reports with detailed analytics
+- **Independent Operation**: Audit agent works separately from main exporter
 
-### Navigation-Resistant Export Engine (v2.0)
-- 🛡️ **Robust Error Handling**: Handles "execution context destroyed" errors during page navigation
-- 🔄 **Graceful Degradation**: Continues export even when UI interactions are interrupted
-- 📱 **Multi-Viewport Rendering**: Captures responsive assets across 5 breakpoints (XS to XL)
-- 🌐 **Dual Network Capture**: Uses both Playwright events + Performance API for complete asset discovery
+### 📱 **Advanced Responsive Testing**
+- **Comprehensive Breakpoints**: XS (375px), SM (480px), MD (768px), LG (980px), XL (1366px)
+- **Viewport-Specific Analysis**: Tracks asset usage per screen size
+- **Visual Verification**: Screenshots and comparison across all viewports
+- **Asset Optimization**: Removes files unused across all responsive breakpoints
 
----
-
-## 🎯 Purpose
-
-This tool creates a "Safe Mirror" of any WordPress/ThemeCo page by:
-- Rendering the page post-JavaScript execution using Playwright
-- Collecting ALL assets (CSS, JS, images, fonts, media) from both DOM and Performance API
-- Downloading assets locally and rewriting references
-- Preserving ALL scripts and styles (no purging in safe mode)
-- Handling responsive designs with multi-viewport rendering
-- Creating a fully portable static version that works offline
-
-## ✨ Features
-
-- **Enhanced Multi-Viewport Rendering**: Tests 5 responsive breakpoints (XS, SM, MD, LG, XL) for comprehensive asset capture
-- **Advanced Network Capture**: Combines Playwright event monitoring with Performance API to capture cross-origin resources
-- **Maximum Compatibility**: Safe mode preserves everything to ensure 1:1 functionality
-- **Smart Asset Collection**: Captures assets from DOM parsing + Performance API + network events across all viewports
-- **Comprehensive Media Support**: Handles `<picture>`, `<source>`, `srcset`, and preload hints for responsive assets
-- **Performance Optimized**: Excludes fonts from data URI inlining to maintain FCP/CLS performance
-- **Lazy Loading Support**: Auto-scrolling and UI interaction to trigger lazy-loaded content
-- **Comprehensive Responsive Capture**: Multi-viewport rendering (XS: 375x667, SM: 480x854, MD: 768x1024, LG: 980x1200, XL: 1366x900)
-- **Inline Optimization**: Small images (<5KB) are inlined as data URIs for better portability (fonts kept as files for performance)
-- **ThemeCo Optimized**: Special handling for ThemeCo accordion, tabs, and UI components
-- **CORS/CORP Fallback**: Keeps original URLs for blocked third-party resources with enhanced error detection
-- **Detailed Logging**: Comprehensive progress information and asset statistics
-
-## 🔧 Technical Improvements
-
-### Network Capture Enhancement
-- **Playwright Event Monitoring**: Captures all network requests via `page.on('requestfinished')` to supplement Performance API
-- **Cross-Origin Asset Recovery**: Handles resources blocked by `Timing-Allow-Origin` restrictions
-- **Smart Network Idle Detection**: Waits for true network quiet before asset capture
-
-### Asset Collection Completeness
-- **Responsive Image Support**: Full `<picture>`, `<source>`, and `srcset` handling
-- **Preload Hint Collection**: Captures `rel="preload"`, `rel="prefetch"`, and `rel="modulepreload"` assets
-- **SRI Integrity Handling**: Automatically removes `integrity` attributes when assets are localized
-
-### Performance Best Practices
-- **Font Performance**: Keeps fonts as external files to avoid data URI bloat and enable format selection
-- **Selective Inlining**: Only small images (<5KB) are inlined for portability without performance impact
-- **Proper Library Usage**: Uses `playwright` instead of `@playwright/test` for production builds
+### 🔍 **Intelligent Analysis Engine**
+- **Static + Runtime Discovery**: HTML/CSS/JS parsing + headless browser testing
+- **Network Monitoring**: Captures all asset requests during page interaction
+- **Waste Detection**: Identifies truly unused files with 99% accuracy
+- **Safety First**: Creates backups before any file removal
+- **Read-Only Audit**: Non-destructive analysis with independent reporting
 
 ## 🚀 Installation
 
@@ -88,40 +52,105 @@ node auto-export.js "http://micro.local/1-2/"
 
 This will automatically:
 1. **Fresh Export** - Download complete page with all assets
-2. **Arabic Audit** - Analyze with RTL reports and identify waste
-3. **Intelligent Cleanup** - Remove unused files safely
+2. **English Audit** - Analyze with detailed reports and identify waste
+3. **Intelligent Cleanup** - Remove unused files safely with backups
 4. **Final Output** - Create clean directory named after the page
 5. **Verification** - Test and validate the final result
 
 The final directory will be named based on the URL path (e.g., `1-2/` for `/1-2/` page).
 
----
+## 🔧 **Core Tools**
 
-## 📖 Manual Usage
-
-### Basic Usage
+### 1. Main Exporter (`exporter_v2.js`)
+Advanced static site exporter with responsive capture:
 
 ```bash
-# Export a page with default settings (safe mode)
+# Basic export with default settings
 node exporter_v2.js "https://yoursite.com/page"
 
-# Specify output filename
-node exporter_v2.js "https://yoursite.com/page" --outfile my-page.html
-
-# Choose export mode
-node exporter_v2.js "https://yoursite.com/page" --mode safe
-```
-
-### Advanced Usage
-
-```bash
-# Custom viewport sizes for responsive capture
+# Advanced export with custom settings
 node exporter_v2.js "https://yoursite.com/page" \
   --outfile index.html \
   --mode balanced \
   --mobile 390x844 \
   --desktop 1440x900
 ```
+
+### 2. Post-Export Auditor (`post-export-auditor.js`)
+Independent audit agent for analyzing exported content:
+
+```bash
+# Comprehensive audit with English reports
+node post-export-auditor.js "http://original-url.com" "./exported-directory"
+
+# Quick audit of current export
+node post-export-auditor.js "http://micro.local/1-2/" "./1-2"
+```
+
+**Audit Features:**
+- 📋 **Complete File Inventory**: Catalogs all exported files
+- 🔍 **Static Analysis**: HTML/CSS/JS dependency mapping  
+- 🔬 **Runtime Discovery**: Headless browser testing with interactions
+- 📷 **Visual Comparison**: Screenshots and diff analysis
+- 💾 **Waste Analysis**: Identifies unused files with size breakdown
+- 🏷️ **Asset Classification**: Groups files by type and usage
+
+### 3. Complete Automation (`auto-export.js`) 
+End-to-end workflow automation:
+
+```bash
+# One command for complete workflow
+node auto-export.js "https://example.com/page"
+```
+
+**Automated Steps:**
+1. Fresh export with responsive capture
+2. Comprehensive audit analysis
+3. Intelligent unused file cleanup
+4. Final optimized output creation
+5. Verification and testing
+
+### 4. Local Test Server (`serve-export.js`)
+HTTP server for testing exported content:
+
+```bash
+# Serve exported directory on localhost:8080
+node serve-export.js "./1-2" 8080
+
+# Use default settings (./dist on port 8080)
+node serve-export.js
+```
+
+## 📊 **Sample Audit Results**
+
+The audit system provides detailed analysis across all responsive breakpoints:
+
+```
+📊 Export Analysis Summary:
+   📁 Total files: 22
+   ✅ Used: 11 (575 KB)
+   🗑️  Unused: 17 (834 KB)
+   📈 Waste ratio: 59%
+
+📱 Responsive Breakdown:
+   XS (375px): 8 assets used
+   SM (480px): 9 assets used  
+   MD (768px): 11 assets used
+   LG (980px): 11 assets used
+   XL (1366px): 11 assets used
+```
+
+**Generated Reports** (in `audit/` directory):
+- `audit-report.html` - Visual dashboard with charts
+- `audit-report.json` - Machine-readable data
+- `asset-graph.json` - Complete dependency mapping
+- 📄 `network-log.json` - Runtime network requests
+- `screenshots/` - Viewport screenshots
+- `visual-diff/` - Original vs local comparison
+
+---
+
+## 📖 Manual Usage
 
 ### Export Modes
 
@@ -147,26 +176,36 @@ node exporter_v2.js "https://yoursite.com/page" \
 ## 📁 Output Structure
 
 ```
-dist/
-├── index.html          # Main exported page
-├── manifest.json       # Export metadata with viewport details
-└── assets/            # All downloaded assets
-    ├── css/           # Stylesheets
-    ├── js/            # JavaScript files
-    ├── images/        # Images and media
-    ├── fonts/         # Font files
-    └── wp-content/    # WordPress theme and plugin assets
+[page-name]/               # Final clean output directory
+├── index.html            # Main exported page
+├── export-info.json      # Export metadata and workflow info
+└── assets/              # All downloaded assets
+    ├── css/             # Stylesheets
+    ├── js/              # JavaScript files
+    ├── images/          # Images and media
+    ├── fonts/           # Font files
+    └── wp-content/      # WordPress theme and plugin assets
+
+audit/                   # Independent audit reports (not in final output)
+├── audit-report.html    # Visual audit dashboard
+├── audit-report.json    # Machine-readable data
+├── asset-graph.json     # Dependency mapping
+├── network-log.json     # Runtime network requests
+├── screenshots/         # Viewport screenshots
+└── visual-diff/         # Original vs local comparison
 ```
 
 ## 🔧 How It Works
 
-1. **Multi-Viewport Page Rendering**: Opens the page in Chromium across 5 different viewport sizes
+1. **Multi-Viewport Page Rendering**: Opens the page in Chromium across 7 different viewport sizes
 2. **Responsive Breakpoint Testing**: 
    - XS (375x667) for ≤480px devices
    - SM (480x854) for ≤767px devices  
    - MD (768x1024) for ≤979px devices
    - LG (980x1200) for ≤1200px devices
    - XL (1366x900) for >1200px devices
+   - Mobile (390x844) optimized mobile view
+   - Desktop (1440x900) standard desktop view
 3. **Content Activation**: 
    - Auto-scrolls to trigger lazy loading
    - Opens `<details>` elements
@@ -175,7 +214,7 @@ dist/
 4. **Comprehensive Asset Collection**: Gathers resources from DOM + Performance API across all viewports
 5. **Download & Rewrite**: Downloads assets locally and updates all references
 6. **Optimization**: Inlines small assets, optionally bundles JS
-7. **Output**: Creates portable static site in `dist/` folder with detailed manifest
+7. **Output**: Creates portable static site with detailed metadata
 
 ## 🎨 ThemeCo Pro Compatibility
 
@@ -202,105 +241,6 @@ Special handling for ThemeCo components:
 - Dynamic content requiring server-side processing
 - Plugin-specific database interactions
 
-## 🔧 **Additional Tools**
-
-### Local Test Server
-
-Test your exported content with the included HTTP server to avoid CORS restrictions:
-
-```bash
-# Serve the dist/ folder on localhost:8080
-node serve-export.js dist 8080
-
-# Or use default settings (serves ./dist on port 8080)
-node serve-export.js
-```
-
-**Why use a local server?**
-- Avoids `file://` protocol CORS restrictions
-- Tests the export exactly as it would work online
-- Enables proper relative URL resolution
-- Required for testing dynamic features
-
-### Arabic Post-Export Auditor (وكيل فحص ما بعد التصدير)
-
-A separate, read-only audit agent that analyzes export directories independently:
-
-```bash
-# Basic audit (Arabic interface)
-node post-export-auditor.js "http://micro.local/1-2/" "./dist"
-
-# Advanced audit with configuration
-node post-export-auditor.js audit-config-example.json
-```
-
-**Key Features (Arabic UI):**
-- 📋 **File Inventory**: Complete catalog of all exported files
-- 🔍 **Static Analysis**: HTML/CSS/JS dependency mapping
-- 🔬 **Runtime Discovery**: Headless browser testing with interactions
-- 📷 **Visual Comparison**: Screenshots and diff analysis
-- 📊 **Waste Analysis**: Identifies unused files with size breakdown
-- 🏷️ **Asset Classification**: Groups files by type and usage
-
-**Audit Outputs (in `audit/` directory):**
-- `audit-report.html` - Visual report in Arabic
-- `audit-report.json` - Machine-readable data
-- `asset-graph.json` - Complete dependency mapping
-- `network-log.json` - Runtime network requests
-- `screenshots/` - Viewport screenshots
-- `visual-diff/` - Original vs local comparison
-
-**Sample Results:**
-```
-📊 ملخص الفحص:
-   📁 إجمالي الملفات: 22
-   ✅ مستخدمة: 11 (575 KB)
-   🗑️  غير مستخدمة: 17 (834 KB)
-   📈 نسبة الهدر: 59%
-```
-
-### Static Export Auditor (English)
-
-The original comprehensive audit agent:
-
-```bash
-# Basic audit of exported content
-node audit-export.js "https://original-url.com" "./dist"
-
-# Advanced audit with custom configuration
-node audit-export.js config.json
-```
-
-**Auditor Features:**
-- 📋 **Dependency Graph Analysis**: Maps all asset relationships
-- 🌐 **Runtime Discovery**: Tests actual browser usage patterns
-- ✂️ **Asset Pruning**: Removes non-essential files safely
-- 📏 **Visual Verification**: Screenshots and diff comparison
-- 📄 **Comprehensive Reports**: HTML and JSON audit reports
-- 📊 **Performance Metrics**: Network requests, errors, and recommendations
-
-### Enhanced Export Reports
-
-Every export now generates detailed reports:
-
-```bash
-# Export with comprehensive reporting
-node exporter_v2.js "https://example.com" --mode balanced
-
-# Check the generated report
-cat dist/export-report.json
-```
-
-**Report Contents:**
-- Asset breakdown by type (CSS, JS, images, fonts)
-- Network-captured vs DOM-discovered assets
-- CORS/blocked asset details
-- Viewport-specific resource counts
-- Performance recommendations
-- Interactive element detection
-
----
-
 ## 🔍 Troubleshooting
 
 ### Common Issues
@@ -314,7 +254,7 @@ cat dist/export-report.json
 ```bash
 # Check what assets are being collected
 node exporter_v2.js "https://yoursite.com" --mode safe
-# Check dist/manifest.json for export details
+# Check export-info.json for export details in the final directory
 ```
 
 ## 🛠️ Development
@@ -322,9 +262,13 @@ node exporter_v2.js "https://yoursite.com" --mode safe
 ### Project Structure
 
 ```
-├── exporter_v2.js     # Main exporter script
-├── package.json       # Dependencies and scripts
-└── README.md          # This file
+├── exporter_v2.js          # Main exporter script
+├── post-export-auditor.js  # Independent audit agent
+├── auto-export.js          # Complete automation workflow
+├── serve-export.js         # Local test server
+├── cleanup-unused.js       # Standalone cleanup utility
+├── package.json            # Dependencies and scripts
+└── README.md              # This documentation
 ```
 
 ### Adding Custom Selectors
@@ -346,15 +290,22 @@ const selectors = [
 node exporter_v2.js "https://yoursite.com/landing" --outfile landing.html --mode safe
 ```
 
-### Export with Custom Mobile Size
+### Complete Automated Workflow
 ```bash
-node exporter_v2.js "https://yoursite.com/mobile-optimized" --mobile 414x896 --mode balanced
+node auto-export.js "https://yoursite.com/complex-page"
+# This creates: complex-page/ directory with clean, optimized output
 ```
 
-### Export for Embedding
+### Audit Existing Export
 ```bash
-node exporter_v2.js "https://yoursite.com/widget" --outfile widget.html --mode safe
-# Small assets will be inlined for easier embedding
+node post-export-auditor.js "https://original-url.com" "./exported-directory"
+# Generates comprehensive analysis in audit/ directory
+```
+
+### Test Exported Content
+```bash
+node serve-export.js "./complex-page" 8080
+# Serves on http://localhost:8080 for testing
 ```
 
 ## 🤝 Contributing
