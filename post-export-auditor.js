@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * وكيل فحص ما بعد التصدير (Post-Export Audit Agent)
- * يحلل مجلد التصدير بشكل منفصل ويكتب التقارير في مجلد audit/
+ * Post-Export Audit Agent
+ * Analyzes the export directory separately and writes reports to an independent audit/ folder
  */
 
 import fs from 'fs-extra';
@@ -46,9 +46,9 @@ class PostExportAuditor {
   }
 
   async audit() {
-    console.log('🔍 بدء فحص ما بعد التصدير...');
-    console.log(`📁 مجلد التصدير: ${this.exportDir}`);
-    console.log(`📊 مجلد التقارير: ${this.auditDir}`);
+    console.log('🔍 Starting post-export audit...');
+    console.log(`📁 Export directory: ${this.exportDir}`);
+    console.log(`📊 Reports directory: ${this.auditDir}`);
     
     try {
       await this.setupAuditDirectory();
@@ -58,9 +58,9 @@ class PostExportAuditor {
       if (this.config.source_url) await this.visualComparison();
       await this.generateReports();
       
-      console.log('✅ تم إنجاز الفحص بنجاح!');
+      console.log('✅ Audit completed successfully!');
     } catch (error) {
-      console.error('❌ فشل في الفحص:', error.message);
+      console.error('❌ Audit failed:', error.message);
       throw error;
     } finally {
       await this.cleanup();
@@ -71,11 +71,11 @@ class PostExportAuditor {
     await fs.ensureDir(this.auditDir);
     await fs.ensureDir(path.join(this.auditDir, 'screenshots'));
     await fs.ensureDir(path.join(this.auditDir, 'visual-diff'));
-    console.log('📁 تم إعداد مجلد التقارير');
+    console.log('📁 Audit directory setup complete');
   }
 
   async inventoryFiles() {
-    console.log('📋 جاري جرد الملفات...');
+    console.log('📋 Inventorying files...');
     
     const walkDir = async (dir, relativePath = '') => {
       const items = await fs.readdir(dir);
@@ -98,15 +98,15 @@ class PostExportAuditor {
     };
     
     await walkDir(this.exportDir);
-    console.log(`📈 تم جرد ${this.fileInventory.size} ملف`);
+    console.log(`📈 Inventoried ${this.fileInventory.size} files`);
   }
 
   async staticAnalysis() {
-    console.log('🔍 التحليل الثابت للأصول...');
+    console.log('🔍 Static asset analysis...');
     
     const entryPath = path.join(this.exportDir, this.config.entry_html);
     if (!await fs.pathExists(entryPath)) {
-      throw new Error(`ملف الدخول غير موجود: ${entryPath}`);
+      throw new Error(`Entry file not found: ${entryPath}`);
     }
     
     const html = await fs.readFile(entryPath, 'utf-8');
@@ -116,7 +116,7 @@ class PostExportAuditor {
     await this.analyzeCSS();
     await this.analyzeJS();
     
-    console.log(`📊 وُجد ${this.staticAssets.size} أصل في التحليل الثابت`);
+    console.log(`📊 Found ${this.staticAssets.size} assets in static analysis`);
   }
 
   extractFromHTML(doc) {
@@ -166,7 +166,7 @@ class PostExportAuditor {
           this.extractCSSUrls(cssContent, cssUrl);
         }
       } catch (error) {
-        console.log(`⚠️ لا يمكن معالجة ملف CSS: ${cssUrl}`);
+        console.log(`⚠️ Cannot process CSS file: ${cssUrl}`);
       }
     }
   }
@@ -200,7 +200,7 @@ class PostExportAuditor {
           this.extractJSUrls(jsContent, jsUrl);
         }
       } catch (error) {
-        console.log(`⚠️ لا يمكن معالجة ملف JS: ${jsUrl}`);
+        console.log(`⚠️ Cannot process JS file: ${jsUrl}`);
       }
     }
   }
@@ -259,7 +259,7 @@ class PostExportAuditor {
   }
 
   async startLocalServer() {
-    console.log('🖥️ بدء الخادم المحلي...');
+    console.log('🖥️ Starting local server...');
     
     return new Promise((resolve, reject) => {
       this.server = http.createServer((req, res) => {
@@ -298,7 +298,7 @@ class PostExportAuditor {
       this.server.listen(this.config.server_port, (err) => {
         if (err) reject(err);
         else {
-          console.log(`📡 الخادم يعمل على http://localhost:${this.config.server_port}`);
+          console.log(`📡 Server running on http://localhost:${this.config.server_port}`);
           resolve();
         }
       });
@@ -306,13 +306,13 @@ class PostExportAuditor {
   }
 
   async runtimeAnalysis() {
-    console.log('🔬 تحليل وقت التشغيل...');
+    console.log('🔬 Runtime analysis...');
     
     await this.startLocalServer();
     const browser = await chromium.launch();
     
     for (const viewport of this.config.viewports) {
-      console.log(`📱 اختبار ${viewport.label} (${viewport.width}x${viewport.height})`);
+      console.log(`📱 Testing ${viewport.label} (${viewport.width}x${viewport.height})`);
       
       const page = await browser.newPage({ 
         viewport: { width: viewport.width, height: viewport.height }
@@ -361,7 +361,7 @@ class PostExportAuditor {
         await fs.writeFile(screenshotPath, screenshot);
         
       } catch (error) {
-        console.log(`⚠️ خطأ في اختبار ${viewport.label}: ${error.message}`);
+        console.log(`⚠️ Error testing ${viewport.label}: ${error.message}`);
       }
       
       await page.close();
@@ -369,7 +369,7 @@ class PostExportAuditor {
     
     await browser.close();
     
-    // إضافة الأصول المحملة فعلياً
+    // Add actually loaded assets
     this.networkLog.forEach(req => {
       if (req.url.startsWith(`http://localhost:${this.config.server_port}`)) {
         const localUrl = req.url.replace(`http://localhost:${this.config.server_port}`, '');
@@ -377,8 +377,8 @@ class PostExportAuditor {
       }
     });
     
-    console.log(`📊 تم تسجيل ${this.networkLog.length} طلب شبكة`);
-    console.log(`⚠️ تم العثور على ${this.consoleErrors.length} خطأ console`);
+    console.log(`📊 Recorded ${this.networkLog.length} network requests`);
+    console.log(`⚠️ Found ${this.consoleErrors.length} console errors`);
   }
 
   async performAutoScroll(page) {
@@ -404,7 +404,7 @@ class PostExportAuditor {
   }
 
   async visualComparison() {
-    console.log('📷 المقارنة البصرية مع الأصل...');
+    console.log('📷 Visual comparison with original...');
     
     const browser = await chromium.launch();
     
@@ -424,7 +424,7 @@ class PostExportAuditor {
         await fs.writeFile(originalPath, originalScreenshot);
         
       } catch (error) {
-        console.log(`⚠️ فشل في التقاط الأصل لـ ${viewport.label}: ${error.message}`);
+        console.log(`⚠️ Failed to capture original for ${viewport.label}: ${error.message}`);
       }
       
       await page.close();
@@ -434,13 +434,13 @@ class PostExportAuditor {
   }
 
   async generateReports() {
-    console.log('📄 إنتاج التقارير النهائية...');
+    console.log('📄 Generating final reports...');
     
-    // تصنيف الملفات
+    // Classify files
     const usedFiles = new Set();
     const unusedFiles = [];
     
-    // إضافة الملفات من التحليل الثابت
+    // Add files from static analysis
     for (const [url, info] of this.staticAssets) {
       if (info.localPath) {
         const relativePath = path.relative(this.exportDir, info.localPath);
@@ -448,14 +448,14 @@ class PostExportAuditor {
       }
     }
     
-    // إضافة الملفات من وقت التشغيل
+    // Add files from runtime
     for (const url of this.runtimeAssets) {
       if (url.startsWith('/')) {
         usedFiles.add(url.slice(1));
       }
     }
     
-    // تحديد الملفات غير المستخدمة
+    // Identify unused files
     for (const [filePath, info] of this.fileInventory) {
       if (!usedFiles.has(filePath) && !usedFiles.has('/' + filePath)) {
         unusedFiles.push({
@@ -469,7 +469,7 @@ class PostExportAuditor {
     
     unusedFiles.sort((a, b) => b.size - a.size);
     
-    // حساب الإحصائيات
+    // Calculate statistics
     const totalFiles = this.fileInventory.size;
     const totalSize = Array.from(this.fileInventory.values()).reduce((sum, info) => sum + info.size, 0);
     const unusedSize = unusedFiles.reduce((sum, file) => sum + file.size, 0);
@@ -496,7 +496,7 @@ class PostExportAuditor {
       recommendations: this.generateRecommendations(unusedFiles, totalSize, unusedSize)
     };
     
-    // حفظ التقارير
+    // Save reports
     await fs.writeJson(path.join(this.auditDir, 'audit-report.json'), report, { spaces: 2 });
     await fs.writeJson(path.join(this.auditDir, 'asset-graph.json'), this.buildAssetGraph(), { spaces: 2 });
     await fs.writeJson(path.join(this.auditDir, 'network-log.json'), this.networkLog, { spaces: 2 });
@@ -505,14 +505,14 @@ class PostExportAuditor {
     const htmlReport = this.generateHTMLReport(report);
     await fs.writeFile(path.join(this.auditDir, 'audit-report.html'), htmlReport);
     
-    console.log('📊 ملخص الفحص:');
-    console.log(`   📁 إجمالي الملفات: ${totalFiles}`);
-    console.log(`   ✅ مستخدمة: ${usedFiles.size} (${Math.round(usedSize / 1024)} KB)`);
-    console.log(`   🗑️  غير مستخدمة: ${unusedFiles.length} (${Math.round(unusedSize / 1024)} KB)`);
-    console.log(`   📈 نسبة الهدر: ${Math.round((unusedSize / totalSize) * 100)}%`);
+    console.log('📊 Audit Summary:');
+    console.log(`   📁 Total files: ${totalFiles}`);
+    console.log(`   ✅ Used: ${usedFiles.size} (${Math.round(usedSize / 1024)} KB)`);
+    console.log(`   🗑️  Unused: ${unusedFiles.length} (${Math.round(unusedSize / 1024)} KB)`);
+    console.log(`   📈 Waste ratio: ${Math.round((unusedSize / totalSize) * 100)}%`);
     
     if (this.consoleErrors.length > 0) {
-      console.log(`   ⚠️  أخطاء Console: ${this.consoleErrors.length}`);
+      console.log(`   ⚠️  Console errors: ${this.consoleErrors.length}`);
     }
   }
 
@@ -533,7 +533,7 @@ class PostExportAuditor {
     const recommendations = [];
     
     if (unusedSize > totalSize * 0.3) {
-      recommendations.push('نسبة الملفات غير المستخدمة عالية (أكثر من 30%) - راجع منطق جمع الأصول');
+      recommendations.push('High unused file ratio (>30%) - review asset collection logic');
     }
     
     const largeUnusedImages = unusedFiles.filter(f => 
@@ -541,16 +541,16 @@ class PostExportAuditor {
     );
     
     if (largeUnusedImages.length > 0) {
-      recommendations.push(`${largeUnusedImages.length} صورة كبيرة غير مستخدمة - تحقق من معالجة srcset والصور المتجاوبة`);
+      recommendations.push(`${largeUnusedImages.length} large unused images - check srcset and responsive image handling`);
     }
     
     const unusedFonts = unusedFiles.filter(f => f.extension.match(/\.(woff2?|ttf|eot)$/i));
     if (unusedFonts.length > 0) {
-      recommendations.push(`${unusedFonts.length} خط غير مستخدم - راجع تحميل الخطوط المشروط`);
+      recommendations.push(`${unusedFonts.length} unused fonts - review conditional font loading`);
     }
     
     if (this.consoleErrors.length > 0) {
-      recommendations.push('توجد أخطاء Console - تحقق من سلامة JavaScript');
+      recommendations.push('Console errors detected - check JavaScript integrity');
     }
     
     return recommendations;
@@ -579,9 +579,9 @@ class PostExportAuditor {
 
   generateHTMLReport(report) {
     return `<!DOCTYPE html>
-<html dir="rtl" lang="ar">
+<html dir="ltr" lang="en">
 <head>
-    <title>تقرير فحص التصدير</title>
+    <title>Export Audit Report</title>
     <meta charset="utf-8">
     <style>
         body { font-family: Arial, sans-serif; margin: 40px; line-height: 1.6; }
@@ -599,41 +599,41 @@ class PostExportAuditor {
 </head>
 <body>
     <div class="header">
-        <h1>🔍 تقرير فحص ما بعد التصدير</h1>
-        <p><strong>مجلد التصدير:</strong> ${report.export_dir}</p>
-        <p><strong>تاريخ الفحص:</strong> ${new Date(report.audit_date).toLocaleString('ar')}</p>
-        ${report.source_url ? `<p><strong>المصدر الأصلي:</strong> ${report.source_url}</p>` : ''}
+        <h1>🔍 Post-Export Audit Report</h1>
+        <p><strong>Export Directory:</strong> ${report.export_dir}</p>
+        <p><strong>Audit Date:</strong> ${new Date(report.audit_date).toLocaleString('en')}</p>
+        ${report.source_url ? `<p><strong>Original Source:</strong> ${report.source_url}</p>` : ''}
     </div>
     
     <div class="section">
-        <h2>📊 إحصائيات الملخص</h2>
+        <h2>📊 Summary Statistics</h2>
         <div class="stats">
             <div class="stat-card">
                 <div class="stat-number">${report.summary.total_files}</div>
-                <div class="stat-label">إجمالي الملفات</div>
+                <div class="stat-label">Total Files</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${report.summary.used_files}</div>
-                <div class="stat-label">ملفات مستخدمة</div>
+                <div class="stat-label">Used Files</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${report.summary.unused_files}</div>
-                <div class="stat-label">ملفات غير مستخدمة</div>
+                <div class="stat-label">Unused Files</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number">${report.summary.waste_percentage}%</div>
-                <div class="stat-label">نسبة الهدر</div>
+                <div class="stat-label">Waste Ratio</div>
             </div>
         </div>
     </div>
     
     ${report.console_errors.length === 0 ? 
-      '<div class="success">✅ لا توجد أخطاء Console - التصدير يعمل بشكل صحيح</div>' :
-      `<div class="error">⚠️ تم العثور على ${report.console_errors.length} خطأ Console</div>`
+      '<div class="success">✅ No Console errors - export working correctly</div>' :
+      `<div class="error">⚠️ Found ${report.console_errors.length} Console errors</div>`
     }
     
     <div class="section">
-        <h2>🗑️ أكبر الملفات غير المستخدمة</h2>
+        <h2>🗑️ Largest Unused Files</h2>
         <div class="file-list">
             ${report.largest_unused_files.map(file => 
               `<div>📄 ${file.path} (${file.sizeKB} KB)</div>`
@@ -642,21 +642,21 @@ class PostExportAuditor {
     </div>
     
     <div class="section">
-        <h2>💡 التوصيات</h2>
+        <h2>💡 Recommendations</h2>
         ${report.recommendations.map(rec => 
           `<div class="warning">• ${rec}</div>`
         ).join('')}
     </div>
     
     <div class="section">
-        <h2>📱 العروض المختبرة</h2>
+        <h2>📱 Viewports Tested</h2>
         ${report.viewports_tested.map(vp => 
           `<div>📱 ${vp}</div>`
         ).join('')}
     </div>
     
     <footer style="margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; color: #666;">
-        <p>تم إنتاجه بواسطة وكيل فحص ما بعد التصدير • ${new Date().toISOString()}</p>
+        <p>Generated by Post-Export Auditor • ${new Date().toISOString()}</p>
     </footer>
 </body>
 </html>`;
@@ -665,7 +665,7 @@ class PostExportAuditor {
   async cleanup() {
     if (this.server) {
       this.server.close();
-      console.log('🛑 تم إيقاف الخادم المحلي');
+      console.log('🛑 Local server stopped');
     }
   }
 }
@@ -686,10 +686,10 @@ async function main() {
   
   if (!config.export_dir) {
     console.log(`
-الاستخدام: node post-export-auditor.js [config.json]
-    أو: node post-export-auditor.js [source_url] [export_dir]
+Usage: node post-export-auditor.js [config.json]
+    or: node post-export-auditor.js [source_url] [export_dir]
 
-مثال config.json:
+Example config.json:
 ${JSON.stringify(DEFAULT_CONFIG, null, 2)}
 `);
     process.exit(1);

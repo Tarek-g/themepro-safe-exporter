@@ -4,7 +4,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "document",
-    "timestamp": 1756549149355,
+    "timestamp": 1756549648700,
     "status": 200,
     "size": 0
   },
@@ -13,7 +13,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549149371,
+    "timestamp": 1756549648732,
     "status": 200,
     "size": 0
   },
@@ -22,7 +22,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -31,7 +31,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -40,7 +40,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -49,7 +49,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -58,7 +58,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -67,7 +67,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -76,7 +76,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -85,7 +85,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -94,7 +94,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
@@ -103,16 +103,16 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648733,
     "status": 200,
     "size": 0
   },
   {
-    "url": "blob:http://localhost:8082/eb8037e5-b0ab-4919-bd6a-5a35a7428d75",
+    "url": "blob:http://localhost:8082/87ec5354-d269-4b98-84e4-ae53a81dc174",
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149372,
+    "timestamp": 1756549648741,
     "status": 200,
     "size": "1330"
   },
@@ -121,7 +121,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "font",
-    "timestamp": 1756549149435,
+    "timestamp": 1756549648821,
     "status": 200,
     "size": "354296"
   },
@@ -130,7 +130,7 @@
     "viewport": "mobile",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549149452,
+    "timestamp": 1756549648886,
     "status": 200,
     "size": 0
   },
@@ -139,91 +139,91 @@
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "document",
-    "timestamp": 1756549156545
+    "timestamp": 1756549655987
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655998
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655998
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655998
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/jquery/jquery-migrate.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/css",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "stylesheet",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/wp-emoji-release.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156557
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156558
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/clipboard.js/1.5.12/clipboard.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156558
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/js/site/x.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156558
+    "timestamp": 1756549655999
   },
   {
     "url": "http://localhost:8082/assets/wp-includes/js/comment-reply.min.js",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156558
+    "timestamp": 1756549655999
   },
   {
-    "url": "blob:http://localhost:8082/d8f1c463-73d9-4143-9f2f-06aa2f18c8a7",
+    "url": "blob:http://localhost:8082/587cca09-dc96-4493-b484-fec36a77d6cf",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156559,
+    "timestamp": 1756549655999,
     "status": 200,
     "size": "1330"
   },
@@ -232,13 +232,13 @@
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "font",
-    "timestamp": 1756549156627
+    "timestamp": 1756549656068
   },
   {
     "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
     "viewport": "desktop",
     "method": "GET",
     "resourceType": "script",
-    "timestamp": 1756549156683
+    "timestamp": 1756549656119
   }
 ]

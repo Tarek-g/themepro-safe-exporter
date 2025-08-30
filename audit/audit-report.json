@@ -1,7 +1,7 @@
 {
-  "audit_date": "2025-08-30T10:19:26.700Z",
+  "audit_date": "2025-08-30T10:27:46.236Z",
   "source_url": "http://micro.local/1-2/",
-  "export_dir": "/Users/tarek/app-T/theme-co-D/1-2",
+  "export_dir": "./1-2",
   "summary": {
     "total_files": 13,
     "used_files": 17,

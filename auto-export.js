@@ -118,15 +118,15 @@ class AutoExporter {
   }
 
   async step2_Audit() {
-    console.log('\n🔍 المرحلة 2: الفحص العربي');
+    console.log('\n🔍 Stage 2: English Audit');
     
-    // حذف مجلد الفحص السابق
+    // Clean previous audit folder
     await fs.remove(this.auditDir);
     
     await this.runCommand('post-export-auditor.js', [
       this.sourceUrl,
       this.tempDir
-    ], 'فحص الملفات غير المستخدمة');
+    ], 'Analyzing unused files');
   }
 
   async step3_Cleanup() {
@@ -239,25 +239,25 @@ class AutoExporter {
   }
 
   async step5_FinalVerification() {
-    console.log('\n🔍 المرحلة 5: التحقق النهائي');
+    console.log('\n🔍 Stage 5: Final Verification');
     
-    // فحص نهائي للتأكد من سلامة التصدير
+    // Final audit to ensure export integrity
     await this.runCommand('post-export-auditor.js', [
       this.sourceUrl,
       this.finalDir
-    ], 'التحقق النهائي من التصدير');
+    ], 'Final export verification');
     
-    // عرض الإحصائيات النهائية
+    // Display final statistics
     const finalAuditPath = path.join(this.auditDir, 'audit-report.json');
     if (await fs.pathExists(finalAuditPath)) {
       const finalReport = await fs.readJson(finalAuditPath);
       const summary = finalReport.summary;
       
-      console.log('\n🎉 التصدير مكتمل! الإحصائيات النهائية:');
-      console.log(`   📁 إجمالي الملفات: ${summary.total_files}`);
-      console.log(`   ✅ مستخدمة: ${summary.used_files} (${summary.used_size_kb} KB)`);
-      console.log(`   🗑️  غير مستخدمة: ${summary.unused_files} (${summary.unused_size_kb} KB)`);
-      console.log(`   📈 نسبة الهدر: ${summary.waste_percentage}%`);
+      console.log('\n🎉 Export Complete! Final Statistics:');
+      console.log(`   📁 Total files: ${summary.total_files}`);
+      console.log(`   ✅ Used: ${summary.used_files} (${summary.used_size_kb} KB)`);
+      console.log(`   🗑️  Unused: ${summary.unused_files} (${summary.unused_size_kb} KB)`);
+      console.log(`   📈 Waste ratio: ${summary.waste_percentage}%`);
     }
   }
 
