@@ -1,4 +1,211 @@
-# Quick Start Example
+# ThemeCo Pro Safe Exporter - Examples
+
+This document provides comprehensive examples of using the ThemeCo Pro Safe Exporter, including the new reporting features, local testing server, and audit tools.
+
+## 🚀 **Quick Start Examples**
+
+### Basic Export with Enhanced Reporting
+
+```bash
+# Export with default settings and comprehensive reports
+node exporter_v2.js "https://example.com/page"
+
+# View the detailed export report
+cat dist/export-report.json
+
+# Test the export locally
+node serve-export.js dist 8080
+# Open http://localhost:8080 in your browser
+```
+
+### Export with Custom Configuration
+
+```bash
+# Custom filename and mode
+node exporter_v2.js "https://example.com/portfolio" \
+  --outfile portfolio.html \
+  --mode balanced
+
+# Check the generated assets and report
+ls -la dist/
+cat dist/export-report.json | jq '.summary'
+```
+
+## 📋 **Understanding Export Reports**
+
+Each export generates a comprehensive report at `dist/export-report.json`:
+
+```json
+{
+  "sourceUrl": "https://example.com/page",
+  "mode": "balanced",
+  "timestamp": "2025-08-30T09:18:47.914Z",
+  "summary": {
+    "totalAssets": 45,
+    "inlinedAssets": 3,
+    "blockedAssets": 2,
+    "networkOnlyAssets": 12,
+    "interactiveElements": 7
+  },
+  "viewports": [
+    { "name": "xs", "size": { "width": 375, "height": 667 }, "resourceCount": 18 },
+    { "name": "xl", "size": { "width": 1366, "height": 900 }, "resourceCount": 22 }
+  ],
+  "assetBreakdown": {
+    "css": 5,
+    "js": 12,
+    "images": 15,
+    "fonts": 8,
+    "other": 5
+  },
+  "recommendations": [
+    "2 assets remain as remote URLs due to CORS restrictions",
+    "12 assets were captured only through network monitoring"
+  ]
+}
+```
+
+### Key Report Metrics
+
+- **totalAssets**: All discovered assets across viewports
+- **inlinedAssets**: Small assets (<10KB) converted to data URIs
+- **blockedAssets**: Assets kept as remote URLs due to CORS/network issues
+- **networkOnlyAssets**: Assets discovered through network monitoring (not in DOM)
+- **interactiveElements**: Number of UI selectors available for interaction
+
+## 🖥️ **Local Testing Server**
+
+### Basic Usage
+
+```bash
+# Serve the exported content
+node serve-export.js dist 8080
+
+# Alternative: use default settings
+node serve-export.js  # serves ./dist on port 8080
+```
+
+### Advanced Testing Workflow
+
+```bash
+# 1. Export a page
+node exporter_v2.js "https://example.com/complex-page" --mode balanced
+
+# 2. Start local server
+node serve-export.js dist 8080 &
+SERVER_PID=$!
+
+# 3. Test with headless browser (optional)
+npx playwright test --config=test-config.js
+
+# 4. Stop server
+kill $SERVER_PID
+```
+
+### Testing Checklist
+
+When testing your export locally:
+
+- ✅ **Navigation**: All internal links work correctly
+- ✅ **Media**: Images, videos, and fonts load properly
+- ✅ **Interactions**: Accordions, tabs, modals function
+- ✅ **Responsive**: Test multiple viewport sizes
+- ✅ **Performance**: Check network panel for 404s
+- ✅ **Console**: No JavaScript errors
+
+## 🔍 **Static Export Auditor**
+
+### Basic Audit
+
+```bash
+# Audit exported content against original
+node audit-export.js "https://example.com/page" "./dist"
+```
+
+### Advanced Audit with Configuration
+
+Create an audit configuration file `audit-config.json`:
+
+```json
+{
+  "source_url": "https://example.com/themecosite",
+  "export_dir": "./dist",
+  "mode": "safe",
+  "viewport_set": [
+    { "label": "mobile", "width": 390, "height": 844 },
+    { "label": "tablet", "width": 768, "height": 1024 },
+    { "label": "desktop", "width": 1366, "height": 900 }
+  ],
+  "interactions": [
+    ".x-accordion .x-accordion-toggle",
+    ".x-nav-tabs a",
+    ".x-toggle",
+    "[data-x-toggle]",
+    ".slider-next",
+    ".modal-trigger"
+  ],
+  "allow_remote": true,
+  "remove_trackers": true,
+  "diff_threshold": 0.05
+}
+```
+
+Run the audit:
+
+```bash
+node audit-export.js audit-config.json
+```
+
+### Audit Output Analysis
+
+The auditor creates several outputs in the `final/` directory:
+
+#### 1. Optimized Export (`final/`)
+- Cleaned up version ready for production
+- Non-essential assets moved to `_unused/`
+- Preserved essential functionality
+
+#### 2. HTML Report (`final/audit-report.html`)
+```html
+<!-- Comprehensive visual report showing: -->
+<!-- • Summary statistics -->
+<!-- • Asset classification -->
+<!-- • Console errors (if any) -->
+<!-- • Viewports tested -->
+<!-- • Performance recommendations -->
+```
+
+#### 3. JSON Report (`final/audit-report.json`)
+```json
+{
+  "sourceUrl": "https://example.com/page",
+  "auditDate": "2025-08-30T09:20:26.948Z",
+  "essentialAssets": ["./assets/main.css", "./assets/app.js"],
+  "removedAssets": ["./assets/analytics.js", "./assets/tracking.js"],
+  "dependencyGraph": { /* complete asset relationships */ },
+  "networkRequests": 28,
+  "consoleErrors": [],
+  "recommendations": [
+    "No console errors detected - export appears functional"
+  ]
+}
+```
+
+#### 4. Manifest (`final/manifest.json`)
+```json
+{
+  "sourceUrl": "https://example.com/page",
+  "auditDate": "2025-08-30T09:20:26.948Z",
+  "essentialAssets": 15,
+  "removedAssets": 3,
+  "viewportsTested": ["mobile", "desktop"],
+  "fileHashes": { /* SHA256 hashes for integrity */ }
+}
+```
+
+---
+
+# Original Quick Start Example
 
 This example shows how to export a WordPress/ThemeCo page using the enhanced safe exporter with multi-viewport rendering.
 

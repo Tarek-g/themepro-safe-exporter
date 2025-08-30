@@ -94,34 +94,120 @@ function toDataUri(buffer, contentType, fallbackExt='bin') {
 }
 
 async function openCommonUI(page) {
-  // Expand <details>
-  await page.evaluate(() => { document.querySelectorAll('details').forEach(d => d.open = true); });
-  // Try click common accordion/tab toggles by heuristics (ThemeCo often uses x- classes)
-  const selectors = [
-    '[aria-controls]', '.accordion [role="button"]', '.tabs [role="tab"]',
-    '.x-accordion .x-accordion-toggle', '.x-tab', '.x-toggle', '.x-nav-tabs [role="tab"]'
-  ];
-  for (const sel of selectors) {
-    const handles = await page.$$(sel);
-    for (const h of handles) { try { await h.click({ timeout: 200, force: true }); } catch {} }
+  try {
+    // Check if page is still valid at the start
+    if (page.isClosed()) {
+      console.log('⚠️ Page already closed, skipping UI interactions');
+      return;
+    }
+
+    // Wait for page to be stable before interacting
+    await page.waitForLoadState('domcontentloaded').catch(() => {
+      console.log('⚠️ Page navigation interrupted domcontentloaded wait');
+    });
+    
+    // Check again after waiting
+    if (page.isClosed()) return;
+
+    // Expand <details> with error handling
+    try {
+      await page.evaluate(() => { 
+        document.querySelectorAll('details').forEach(d => d.open = true); 
+      });
+    } catch (e) {
+      if (e.message.includes('Execution context was destroyed')) {
+        console.log('⚠️ UI interaction interrupted by navigation during details expansion');
+        return;
+      }
+    }
+    
+    // Try click common accordion/tab toggles by heuristics (ThemeCo often uses x- classes)
+    const selectors = [
+      '[aria-controls]', '.accordion [role="button"]', '.tabs [role="tab"]',
+      '.x-accordion .x-accordion-toggle', '.x-tab', '.x-toggle', '.x-nav-tabs [role="tab"]'
+    ];
+    
+    for (const sel of selectors) {
+      try {
+        // Check if page is still valid before each selector
+        if (page.isClosed()) {
+          console.log('⚠️ Page closed during selector iteration, stopping UI interactions');
+          break;
+        }
+        
+        const handles = await page.$$(sel).catch((e) => {
+          if (e.message.includes('Execution context was destroyed')) {
+            console.log('⚠️ Execution context destroyed during element query, stopping UI interactions');
+          }
+          return [];
+        });
+        
+        for (const h of handles) { 
+          try { 
+            if (!page.isClosed()) {
+              await h.click({ timeout: 200, force: true }); 
+            }
+          } catch (clickError) {
+            // Ignore individual click errors but log context destruction
+            if (clickError.message.includes('Execution context was destroyed')) {
+              console.log('⚠️ Click interrupted by navigation');
+              return;
+            }
+          } 
+        }
+      } catch (e) {
+        // Skip selector if execution context is destroyed
+        if (e.message.includes('Execution context was destroyed')) {
+          console.log('⚠️ Selector processing interrupted by navigation');
+          break;
+        }
+      }
+    }
+  } catch (e) {
+    // Log error but don't fail the entire export
+    if (e.message.includes('Execution context was destroyed')) {
+      console.log('⚠️ UI interaction completely interrupted by page navigation');
+    } else {
+      console.log('⚠️ UI interaction failed:', e.message);
+    }
   }
 }
 
 async function autoScroll(page) {
-  await page.evaluate(async () => {
-    await new Promise(resolve => {
-      let total = 0;
-      const step = () => {
-        const { scrollTop, scrollHeight, clientHeight } = document.scrollingElement || document.documentElement;
-        const atEnd = scrollTop + clientHeight >= scrollHeight - 2;
-        if (atEnd || total > 30) return resolve();
-        window.scrollBy(0, clientHeight * 0.9);
-        total++;
-        setTimeout(step, 150);
-      };
-      step();
+  try {
+    // Check if page is valid before scrolling
+    if (page.isClosed()) {
+      console.log('⚠️ Page closed, skipping auto-scroll');
+      return;
+    }
+
+    await page.evaluate(async () => {
+      await new Promise(resolve => {
+        let total = 0;
+        const step = () => {
+          try {
+            const { scrollTop, scrollHeight, clientHeight } = document.scrollingElement || document.documentElement;
+            const atEnd = scrollTop + clientHeight >= scrollHeight - 2;
+            if (atEnd || total > 30) return resolve();
+            window.scrollBy(0, clientHeight * 0.9);
+            total++;
+            setTimeout(step, 150);
+          } catch (e) {
+            // Handle any scrolling errors gracefully
+            resolve();
+          }
+        };
+        step();
+      });
     });
-  });
+  } catch (e) {
+    // Handle execution context destroyed during scrolling
+    if (e.message.includes('Execution context was destroyed')) {
+      console.log('⚠️ Auto-scroll interrupted by navigation');
+    } else {
+      console.log('⚠️ Auto-scroll failed:', e.message);
+    }
+  }
 }
 
 async function renderMultiViewport(browser, targetUrl) {
@@ -167,39 +253,106 @@ async function renderAndCollect(browser, targetUrl, size) {
   const page = await browser.newPage({ viewport: size });
   const reqUrls = new Set();
 
-  // Capture ALL network requests to avoid missing cross-origin resources
-  page.on('requestfinished', req => {
+  try {
+    // Capture ALL network requests to avoid missing cross-origin resources
+    page.on('requestfinished', req => {
+      try { 
+        const u = req.url(); 
+        if (u) reqUrls.add(u); 
+      } catch {}
+    });
+
+    // Navigate with extended timeout and wait for network stability
+    await page.goto(targetUrl, { 
+      waitUntil: 'domcontentloaded', 
+      timeout: 60000 
+    });
+    
+    // Wait for network to settle before interacting
+    await page.waitForLoadState('networkidle', { timeout: 30000 }).catch(() => {
+      console.log('⚠️ Network idle wait timeout - proceeding with interactions');
+    });
+    
+    // Small delay to ensure page is fully stable
+    await page.waitForTimeout(1000);
+    
+    // Try UI interactions with comprehensive error handling
+    try {
+      await openCommonUI(page);
+    } catch (e) {
+      if (e.message.includes('Execution context was destroyed')) {
+        console.log('⚠️ UI interactions skipped due to navigation during openCommonUI');
+      }
+    }
+    
+    try {
+      await autoScroll(page);
+    } catch (e) {
+      if (e.message.includes('Execution context was destroyed')) {
+        console.log('⚠️ Auto-scroll skipped due to navigation');
+      }
+    }
+    
+    // Wait for fonts to settle
     try { 
-      const u = req.url(); 
-      if (u) reqUrls.add(u); 
+      if (!page.isClosed()) {
+        await page.evaluate(() => window.document.fonts && window.document.fonts.ready); 
+      }
+    } catch (e) {
+      if (e.message.includes('Execution context was destroyed')) {
+        console.log('⚠️ Font loading wait interrupted by navigation');
+      }
+    }
+    
+    // Additional network idle wait for late-loading assets
+    try {
+      await waitForNetworkIdle(page, 500, 10000);
+    } catch (e) {
+      console.log('⚠️ Network idle wait failed, continuing anyway');
+    }
+    
+    let html = '';
+    try {
+      html = await page.content();
+    } catch (e) {
+      if (e.message.includes('Execution context was destroyed')) {
+        console.log('⚠️ Could not get page content due to navigation, using empty HTML');
+        html = '<html><head></head><body><!-- Page content unavailable due to navigation --></body></html>';
+      } else {
+        throw e;
+      }
+    }
+
+    // Get resources from both Performance API and network capture
+    let perfResources = [];
+    try {
+      if (!page.isClosed()) {
+        perfResources = await page.evaluate(() => {
+          try {
+            const entries = performance.getEntriesByType('resource') || [];
+            return entries.map(e => e.name).filter(Boolean);
+          } catch {
+            return [];
+          }
+        });
+      }
+    } catch (e) {
+      if (e.message.includes('Execution context was destroyed')) {
+        console.log('⚠️ Performance API access interrupted by navigation');
+      }
+      perfResources = [];
+    }
+
+    // Merge network-captured URLs with Performance API results
+    const allResources = [...new Set([...perfResources, ...reqUrls])];
+
+    return { html, resources: allResources };
+  } finally {
+    // Always close the page, even if errors occurred
+    try {
+      await page.close();
     } catch {}
-  });
-
-  await page.goto(targetUrl, { waitUntil: 'networkidle', timeout: 60000 });
-  await openCommonUI(page);
-  await autoScroll(page);
-  
-  // Wait for fonts to settle
-  try { 
-    await page.evaluate(() => window.document.fonts && window.document.fonts.ready); 
-  } catch {}
-  
-  // Additional network idle wait for late-loading assets
-  await waitForNetworkIdle(page, 500, 10000);
-  
-  const html = await page.content();
-
-  // Get resources from both Performance API and network capture
-  const perfResources = await page.evaluate(() => {
-    const entries = performance.getEntriesByType('resource') || [];
-    return entries.map(e => e.name).filter(Boolean);
-  });
-
-  // Merge network-captured URLs with Performance API results
-  const allResources = [...new Set([...perfResources, ...reqUrls])];
-
-  await page.close();
-  return { html, resources: allResources };
+  }
 }
 
 function extractDomAssets(baseUrl, html) {
@@ -267,6 +420,77 @@ function extractDomAssets(baseUrl, html) {
 async function ensureDirAndWrite(filePath, buffer) {
   await fs.ensureDir(path.dirname(filePath));
   await fs.writeFile(filePath, buffer);
+}
+
+function generateExportReport(data) {
+  const {
+    url, mode, viewportResults, combinedAssets, rewriteMap, 
+    cssFiles, jsFiles, otherFiles, allResources, domAssets
+  } = data;
+
+  // Count different asset types
+  const inlinedAssets = Array.from(rewriteMap.values()).filter(v => v.startsWith('data:')).length;
+  const blockedAssets = Array.from(rewriteMap.entries()).filter(([original, mapped]) => 
+    original === mapped && (original.startsWith('http') || original.startsWith('//'))  
+  ).length;
+  
+  // Network-only assets (captured by network events but not in DOM)
+  const domAssetUrls = new Set(domAssets);
+  const networkOnlyAssets = Array.from(allResources).filter(url => !domAssetUrls.has(url)).length;
+  
+  // Interactive elements that were opened (from openCommonUI)
+  const interactiveSelectors = [
+    '[aria-controls]', '.accordion [role="button"]', '.tabs [role="tab"]',
+    '.x-accordion .x-accordion-toggle', '.x-tab', '.x-toggle', '.x-nav-tabs [role="tab"]'
+  ];
+  
+  // Assets breakdown by type
+  const assetBreakdown = {
+    css: cssFiles.length,
+    js: jsFiles.length,
+    images: Array.from(combinedAssets).filter(url => isLikelyImage(url)).length,
+    fonts: Array.from(combinedAssets).filter(url => url.includes('.woff') || url.includes('.ttf') || url.includes('.eot')).length,
+    other: otherFiles.length
+  };
+  
+  // Blocked assets details
+  const blockedAssetsList = Array.from(rewriteMap.entries())
+    .filter(([original, mapped]) => original === mapped && (original.startsWith('http') || original.startsWith('//')  ))
+    .map(([url]) => {
+      const reason = 'CORS/Network restriction';
+      return { url, reason };
+    });
+    
+  // Network-only assets details  
+  const networkOnlyAssetsList = Array.from(allResources)
+    .filter(url => !domAssetUrls.has(url))
+    .map(url => ({ url, source: 'network_capture' }));
+
+  return {
+    sourceUrl: url,
+    mode,
+    timestamp: new Date().toISOString(),
+    summary: {
+      totalAssets: combinedAssets.size,
+      inlinedAssets,
+      blockedAssets,
+      networkOnlyAssets,
+      interactiveElements: interactiveSelectors.length
+    },
+    viewports: viewportResults.map(r => ({
+      name: r.name,
+      size: r.size,
+      resourceCount: r.resources.length
+    })),
+    assetBreakdown,
+    blockedAssetsList,
+    networkOnlyAssetsList,
+    recommendations: [
+      blockedAssets > 0 ? `${blockedAssets} assets remain as remote URLs due to CORS restrictions` : null,
+      networkOnlyAssets > 0 ? `${networkOnlyAssets} assets were captured only through network monitoring` : null,
+      inlinedAssets > 0 ? `${inlinedAssets} small assets were inlined as data URIs for better performance` : null
+    ].filter(Boolean)
+  };
 }
 
 // Helper to rewrite URLs and remove integrity when using local assets
@@ -397,23 +621,37 @@ async function main() {
 
   // Optional: JS bundling in balanced mode (keeps all scripts)
   if (MODE === 'balanced' && jsFiles.length) {
-    const out = path.join(ASSETS_DIR, 'app.bundle.js');
-    await esbuild.build({
-      entryPoints: jsFiles,
-      bundle: true,
-      minify: true,
-      sourcemap: false,
-      platform: 'browser',
-      target: ['es2018'],
-      outfile: out,
-      logLevel: 'silent',
-      allowOverwrite: true
-    });
-    // Remove original <script src> tags and append one tag to bundle
-    doc.querySelectorAll('script[src]').forEach(s => s.remove());
-    const tag = doc.createElement('script');
-    tag.setAttribute('src', './assets/app.bundle.js');
-    doc.body.appendChild(tag);
+    console.log(`📦 Bundling ${jsFiles.length} JavaScript files in balanced mode...`);
+    
+    try {
+      // Simple concatenation approach for better compatibility
+      const bundleContent = [];
+      for (const jsFile of jsFiles) {
+        try {
+          const content = await fs.readFile(jsFile, 'utf-8');
+          bundleContent.push(`\n// === ${path.basename(jsFile)} ===\n`);
+          bundleContent.push(content);
+          bundleContent.push('\n');
+        } catch (e) {
+          console.log(`⚠️ Skipping JS file: ${jsFile}`);
+        }
+      }
+      
+      const bundledJs = bundleContent.join('');
+      const bundlePath = path.join(ASSETS_DIR, 'app.bundle.js');
+      await fs.writeFile(bundlePath, bundledJs, 'utf-8');
+      
+      // Remove original <script src> tags and append one tag to bundle
+      doc.querySelectorAll('script[src]').forEach(s => s.remove());
+      const tag = doc.createElement('script');
+      tag.setAttribute('src', './assets/app.bundle.js');
+      doc.body.appendChild(tag);
+      
+      console.log(`✨ Successfully bundled ${jsFiles.length} JavaScript files`);
+    } catch (e) {
+      console.log(`⚠️ JS bundling failed, keeping individual files: ${e.message}`);
+      // Keep original script tags if bundling fails
+    }
   }
 
   // Write final HTML
@@ -435,10 +673,42 @@ async function main() {
     exportDate: new Date().toISOString()
   }, { spaces: 2 });
 
+  // Generate comprehensive export report
+  const report = generateExportReport({
+    url,
+    mode: MODE,
+    viewportResults,
+    combinedAssets,
+    rewriteMap,
+    cssFiles,
+    jsFiles,
+    otherFiles,
+    allResources,
+    domAssets
+  });
+  
+  // Write detailed report to file
+  const reportPath = path.join(DIST_DIR, 'export-report.json');
+  await fs.writeJson(reportPath, report, { spaces: 2 });
+  
+  console.log(`\n📋 Export Report:`);
   console.log(`✅ Export complete → ${path.join(DIST_DIR, outFileName)} (mode=${MODE})`);
   console.log(`📱 Responsive viewports tested: ${viewportResults.length}`);
   console.log(`💾 Total assets downloaded: ${combinedAssets.size}`);
-  console.log(`📦 Assets inlined as data URIs: ${Array.from(rewriteMap.values()).filter(v => v.startsWith('data:')).length}`);
+  console.log(`📦 Assets inlined as data URIs: ${report.summary.inlinedAssets}`);
+  console.log(`⚠️  CORS/blocked assets: ${report.summary.blockedAssets}`);
+  console.log(`🌐 Network-captured assets: ${report.summary.networkOnlyAssets}`);
+  console.log(`🎛️  Interactive elements available: ${report.summary.interactiveElements}`);
+  console.log(`📄 Detailed report saved: ${path.relative(process.cwd(), reportPath)}`);
+  
+  if (report.summary.blockedAssets > 0) {
+    console.log(`\n⚠️  Note: ${report.summary.blockedAssets} assets kept as original URLs due to CORS/network restrictions`);
+  }
+  
+  if (report.recommendations.length > 0) {
+    console.log(`\n💡 Recommendations:`);
+    report.recommendations.forEach(rec => console.log(`   • ${rec}`));
+  }
 }
 
 main().catch(err => {

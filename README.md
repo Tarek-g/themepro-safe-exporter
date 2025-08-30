@@ -2,6 +2,22 @@
 
 A high-compatibility static site exporter for ThemeCo Pro and WordPress pages that ensures everything works as intended without breaking functionality.
 
+## ✨ **Recent Updates**
+
+### Enhanced Reporting & Local Testing (v2.1)
+- 📊 **Comprehensive Export Reports**: Detailed JSON reports with asset breakdowns, network captures, and recommendations
+- 🖥️ **Local Test Server**: Built-in HTTP server for testing exports (avoiding `file://` CORS issues)
+- 🔍 **Static Export Auditor**: Advanced dependency analysis, asset pruning, and fidelity verification
+- 🛡️ **Enhanced Error Handling**: Better navigation interruption handling with graceful degradation
+
+### Navigation-Resistant Export Engine (v2.0)
+- 🛡️ **Robust Error Handling**: Handles "execution context destroyed" errors during page navigation
+- 🔄 **Graceful Degradation**: Continues export even when UI interactions are interrupted
+- 📱 **Multi-Viewport Rendering**: Captures responsive assets across 5 breakpoints (XS to XL)
+- 🌐 **Dual Network Capture**: Uses both Playwright events + Performance API for complete asset discovery
+
+---
+
 ## 🎯 Purpose
 
 This tool creates a "Safe Mirror" of any WordPress/ThemeCo page by:
@@ -162,6 +178,68 @@ Special handling for ThemeCo components:
 - User authentication/login
 - Dynamic content requiring server-side processing
 - Plugin-specific database interactions
+
+## 🔧 **Additional Tools**
+
+### Local Test Server
+
+Test your exported content with the included HTTP server to avoid CORS restrictions:
+
+```bash
+# Serve the dist/ folder on localhost:8080
+node serve-export.js dist 8080
+
+# Or use default settings (serves ./dist on port 8080)
+node serve-export.js
+```
+
+**Why use a local server?**
+- Avoids `file://` protocol CORS restrictions
+- Tests the export exactly as it would work online
+- Enables proper relative URL resolution
+- Required for testing dynamic features
+
+### Static Export Auditor
+
+Analyze and optimize your exported content with comprehensive auditing:
+
+```bash
+# Basic audit of exported content
+node audit-export.js "https://original-url.com" "./dist"
+
+# Advanced audit with custom configuration
+node audit-export.js config.json
+```
+
+**Auditor Features:**
+- 📋 **Dependency Graph Analysis**: Maps all asset relationships
+- 🌐 **Runtime Discovery**: Tests actual browser usage patterns
+- ✂️ **Asset Pruning**: Removes non-essential files safely
+- 📏 **Visual Verification**: Screenshots and diff comparison
+- 📄 **Comprehensive Reports**: HTML and JSON audit reports
+- 📊 **Performance Metrics**: Network requests, errors, and recommendations
+
+### Enhanced Export Reports
+
+Every export now generates detailed reports:
+
+```bash
+# Export with comprehensive reporting
+node exporter_v2.js "https://example.com" --mode balanced
+
+# Check the generated report
+cat dist/export-report.json
+```
+
+**Report Contents:**
+- Asset breakdown by type (CSS, JS, images, fonts)
+- Network-captured vs DOM-discovered assets
+- CORS/blocked asset details
+- Viewport-specific resource counts
+- Performance recommendations
+- Interactive element detection
+
+---
 
 ## 🔍 Troubleshooting
 

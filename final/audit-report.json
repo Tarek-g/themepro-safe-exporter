@@ -1,0 +1,72 @@
+{
+  "sourceUrl": "http://micro.local/1-2/",
+  "auditDate": "2025-08-30T09:20:26.948Z",
+  "essentialAssets": [
+    "./assets/wp-includes/css/dist/block-library/style.min.css",
+    "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "./assets/wp-content/themes/pro-child/style.css",
+    "./assets/css",
+    "./assets/app.bundle.js",
+    "/",
+    "/assets/wp-includes/css/dist/block-library/style.min.css",
+    "/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "/assets/wp-content/themes/pro-child/style.css",
+    "/assets/css",
+    "/assets/app.bundle.js"
+  ],
+  "removedAssets": [],
+  "dependencyGraph": {
+    "./assets/wp-includes/css/dist/block-library/style.min.css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "essential": true
+    },
+    "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "essential": true
+    },
+    "./assets/wp-content/themes/pro-child/style.css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "essential": true
+    },
+    "./assets/css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "essential": true
+    },
+    "./assets/app.bundle.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "essential": true
+    }
+  },
+  "viewportsTested": [
+    {
+      "label": "mobile",
+      "width": 390,
+      "height": 844
+    },
+    {
+      "label": "desktop",
+      "width": 1366,
+      "height": 900
+    }
+  ],
+  "networkRequests": 18,
+  "consoleErrors": [],
+  "recommendations": [
+    "No assets were removed - consider reviewing tracker removal settings"
+  ]
+}
