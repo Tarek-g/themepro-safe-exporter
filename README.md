@@ -15,14 +15,34 @@ This tool creates a "Safe Mirror" of any WordPress/ThemeCo page by:
 ## ✨ Features
 
 - **Enhanced Multi-Viewport Rendering**: Tests 5 responsive breakpoints (XS, SM, MD, LG, XL) for comprehensive asset capture
+- **Advanced Network Capture**: Combines Playwright event monitoring with Performance API to capture cross-origin resources
 - **Maximum Compatibility**: Safe mode preserves everything to ensure 1:1 functionality
-- **Smart Asset Collection**: Captures assets from DOM parsing + Performance API across all viewports
+- **Smart Asset Collection**: Captures assets from DOM parsing + Performance API + network events across all viewports
+- **Comprehensive Media Support**: Handles `<picture>`, `<source>`, `srcset`, and preload hints for responsive assets
+- **Performance Optimized**: Excludes fonts from data URI inlining to maintain FCP/CLS performance
 - **Lazy Loading Support**: Auto-scrolling and UI interaction to trigger lazy-loaded content
 - **Comprehensive Responsive Capture**: Multi-viewport rendering (XS: 375x667, SM: 480x854, MD: 768x1024, LG: 980x1200, XL: 1366x900)
-- **Inline Optimization**: Small assets (<10KB) are inlined as data URIs for better portability
+- **Inline Optimization**: Small images (<5KB) are inlined as data URIs for better portability (fonts kept as files for performance)
 - **ThemeCo Optimized**: Special handling for ThemeCo accordion, tabs, and UI components
-- **CORS Fallback**: Keeps original URLs for blocked third-party resources
+- **CORS/CORP Fallback**: Keeps original URLs for blocked third-party resources with enhanced error detection
 - **Detailed Logging**: Comprehensive progress information and asset statistics
+
+## 🔧 Technical Improvements
+
+### Network Capture Enhancement
+- **Playwright Event Monitoring**: Captures all network requests via `page.on('requestfinished')` to supplement Performance API
+- **Cross-Origin Asset Recovery**: Handles resources blocked by `Timing-Allow-Origin` restrictions
+- **Smart Network Idle Detection**: Waits for true network quiet before asset capture
+
+### Asset Collection Completeness
+- **Responsive Image Support**: Full `<picture>`, `<source>`, and `srcset` handling
+- **Preload Hint Collection**: Captures `rel="preload"`, `rel="prefetch"`, and `rel="modulepreload"` assets
+- **SRI Integrity Handling**: Automatically removes `integrity` attributes when assets are localized
+
+### Performance Best Practices
+- **Font Performance**: Keeps fonts as external files to avoid data URI bloat and enable format selection
+- **Selective Inlining**: Only small images (<5KB) are inlined for portability without performance impact
+- **Proper Library Usage**: Uses `playwright` instead of `@playwright/test` for production builds
 
 ## 🚀 Installation
 
