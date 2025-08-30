@@ -15,7 +15,7 @@
 // - Later you can try --mode balanced to bundle JS (still keeps everything).
 // - Avoid "aggressive" unless you want to experiment with pruning.
 
-import { chromium } from '@playwright/test';
+import { chromium } from 'playwright';
 import fs from 'fs-extra';
 import path from 'path';
 import { JSDOM } from 'jsdom';
@@ -56,7 +56,7 @@ const DESKTOP = parseSize('--desktop') || BREAKPOINTS.xl;
 
 const DIST_DIR = 'dist';
 const ASSETS_DIR = path.join(DIST_DIR, 'assets');
-const SMALL_INLINE_MAX = 10 * 1024; // 10KB → inline as data URI (images/fonts) to reduce requests in embeds
+const SMALL_INLINE_MAX = 5 * 1024; // 5KB → inline only tiny images (NOT fonts) to avoid font loading/FCP issues
 
 function isAbsolute(u) { try { new URL(u); return true; } catch { return false; } }
 function toAbsolute(base, u) {
@@ -142,22 +142,64 @@ async function renderMultiViewport(browser, targetUrl) {
   return results;
 }
 
+async function waitForNetworkIdle(page, idleMs = 500, timeoutMs = 15000) {
+  let inflight = 0; let fulfill;
+  const idle = new Promise(res => (fulfill = res));
+  const onReq = () => inflight++;
+  const onDone = () => { inflight = Math.max(0, inflight - 1); if (inflight === 0) timer(); };
+
+  let timerId; const timer = () => { clearTimeout(timerId); timerId = setTimeout(fulfill, idleMs); };
+  page.on('request', onReq);
+  page.on('requestfinished', onDone);
+  page.on('requestfailed', onDone);
+
+  const t = setTimeout(() => fulfill(), timeoutMs);
+  // kick
+  if (inflight === 0) timer();
+  await idle;
+  clearTimeout(t);
+  page.off('request', onReq);
+  page.off('requestfinished', onDone);
+  page.off('requestfailed', onDone);
+}
+
 async function renderAndCollect(browser, targetUrl, size) {
   const page = await browser.newPage({ viewport: size });
+  const reqUrls = new Set();
+
+  // Capture ALL network requests to avoid missing cross-origin resources
+  page.on('requestfinished', req => {
+    try { 
+      const u = req.url(); 
+      if (u) reqUrls.add(u); 
+    } catch {}
+  });
+
   await page.goto(targetUrl, { waitUntil: 'networkidle', timeout: 60000 });
   await openCommonUI(page);
   await autoScroll(page);
-  // small wait for lazy assets
-  await page.waitForTimeout(800);
+  
+  // Wait for fonts to settle
+  try { 
+    await page.evaluate(() => window.document.fonts && window.document.fonts.ready); 
+  } catch {}
+  
+  // Additional network idle wait for late-loading assets
+  await waitForNetworkIdle(page, 500, 10000);
+  
   const html = await page.content();
 
-  const resources = await page.evaluate(() => {
+  // Get resources from both Performance API and network capture
+  const perfResources = await page.evaluate(() => {
     const entries = performance.getEntriesByType('resource') || [];
     return entries.map(e => e.name).filter(Boolean);
   });
 
+  // Merge network-captured URLs with Performance API results
+  const allResources = [...new Set([...perfResources, ...reqUrls])];
+
   await page.close();
-  return { html, resources };
+  return { html, resources: allResources };
 }
 
 function extractDomAssets(baseUrl, html) {
@@ -192,6 +234,24 @@ function extractDomAssets(baseUrl, html) {
     const src = el.getAttribute('src'); const abs = toAbsolute(baseUrl, src);
     if (abs) assets.add(abs);
   });
+
+  // <source> in <picture>/<video>/<audio> with srcset support
+  doc.querySelectorAll('source').forEach(s => {
+    const src = s.getAttribute('src');
+    const srcset = s.getAttribute('srcset');
+    if (src) { const a = toAbsolute(baseUrl, src); if (a) assets.add(a); }
+    if (srcset) {
+      srcset.split(',').forEach(part => {
+        const u = part.trim().split(' ')[0];
+        const a = toAbsolute(baseUrl, u); if (a) assets.add(a);
+      });
+    }
+  });
+
+  // preload/prefetch & modulepreload (fonts, images, scripts)
+  doc.querySelectorAll('link[rel="preload"],link[rel="prefetch"],link[rel="modulepreload"]').forEach(l => {
+    const href = l.getAttribute('href'); const a = toAbsolute(baseUrl, href); if (a) assets.add(a);
+  });
   // CSS @import in <style> tags (basic)
   doc.querySelectorAll('style').forEach(st => {
     const txt = st.textContent || '';
@@ -207,6 +267,20 @@ function extractDomAssets(baseUrl, html) {
 async function ensureDirAndWrite(filePath, buffer) {
   await fs.ensureDir(path.dirname(filePath));
   await fs.writeFile(filePath, buffer);
+}
+
+// Helper to rewrite URLs and remove integrity when using local assets
+function rewriteTagUrl(el, attrName, baseUrl, rewriteMap) {
+  const val = el.getAttribute(attrName);
+  const abs = toAbsolute(baseUrl, val);
+  if (abs && rewriteMap.has(abs)) {
+    const mapped = rewriteMap.get(abs);
+    el.setAttribute(attrName, mapped);
+    // Remove integrity when using local files to avoid SRI failures
+    if (mapped.startsWith('./assets')) {
+      el.removeAttribute('integrity');
+    }
+  }
 }
 
 async function main() {
@@ -258,11 +332,12 @@ async function main() {
       const rel = relFromIndex(assetUrl);
       const { buffer, contentType } = await download(assetUrl);
 
-      // Inline tiny images/fonts to harden portability
-      if ((isLikelyImage(assetUrl) || isLikelyFont(assetUrl)) && buffer.length <= SMALL_INLINE_MAX) {
-        rewriteMap.set(assetUrl, toDataUri(buffer, contentType, isLikelyImage(assetUrl) ? 'png' : 'woff2'));
-        console.log(`📦 Inlined small asset: ${assetUrl} (${buffer.length} bytes)`);
+      // Inline only tiny images (NOT fonts) to avoid font loading/FCP issues
+      if (isLikelyImage(assetUrl) && buffer.length <= SMALL_INLINE_MAX) {
+        rewriteMap.set(assetUrl, toDataUri(buffer, contentType, 'png'));
+        console.log(`📦 Inlined small image: ${assetUrl} (${buffer.length} bytes)`);
       } else {
+        // Write to disk (fonts always go here for better performance)
         await ensureDirAndWrite(outPath, buffer);
         rewriteMap.set(assetUrl, rel);
         if (isLikelyCSS(assetUrl)) cssFiles.push(outPath);
@@ -271,24 +346,22 @@ async function main() {
         console.log(`💾 Downloaded: ${assetUrl}`);
       }
     } catch (e) {
-      // If third-party blocked by CORS for fetch, keep original URL (still works online)
+      // If third-party blocked by CORS/CORP, keep original URL (still works online)
       rewriteMap.set(assetUrl, assetUrl);
-      console.log(`⚠️ CORS blocked, keeping original URL: ${assetUrl}`);
+      const errorType = e.message.includes('CORS') ? 'CORS' : 
+                       e.message.includes('CORP') ? 'CORP' : 'Network';
+      console.log(`⚠️ ${errorType} blocked, keeping original URL: ${assetUrl}`);
     }
   }
 
-  // Rewrite DOM references
-  // links
-  doc.querySelectorAll('link[rel="stylesheet"]').forEach(l => {
-    const href = l.getAttribute('href');
-    const abs = toAbsolute(url, href);
-    if (abs && rewriteMap.has(abs)) l.setAttribute('href', rewriteMap.get(abs));
+  // Rewrite DOM references using helper function to handle integrity removal
+  // stylesheets and preload links
+  doc.querySelectorAll('link[rel="stylesheet"], link[rel="preload"], link[rel="modulepreload"], link[rel="prefetch"]').forEach(l => {
+    rewriteTagUrl(l, 'href', url, rewriteMap);
   });
   // scripts
   doc.querySelectorAll('script[src]').forEach(s => {
-    const src = s.getAttribute('src');
-    const abs = toAbsolute(url, src);
-    if (abs && rewriteMap.has(abs)) s.setAttribute('src', rewriteMap.get(abs));
+    rewriteTagUrl(s, 'src', url, rewriteMap);
   });
   // images
   doc.querySelectorAll('img').forEach(img => {
@@ -306,11 +379,20 @@ async function main() {
       img.setAttribute('srcset', out);
     }
   });
-  // media
+  // media elements and <source> with srcset support
   doc.querySelectorAll('video, audio, source').forEach(el => {
-    const src = el.getAttribute('src');
-    const abs = toAbsolute(url, src);
-    if (abs && rewriteMap.has(abs)) el.setAttribute('src', rewriteMap.get(abs));
+    rewriteTagUrl(el, 'src', url, rewriteMap);
+    // Handle srcset in <source> elements
+    const srcset = el.getAttribute('srcset');
+    if (srcset) {
+      const out = srcset.split(',').map(part => {
+        const [u, w] = part.trim().split(' ');
+        const a = toAbsolute(url, u);
+        const mapped = a && rewriteMap.has(a) ? rewriteMap.get(a) : u;
+        return [mapped, w].filter(Boolean).join(' ');
+      }).join(', ');
+      el.setAttribute('srcset', out);
+    }
   });
 
   // Optional: JS bundling in balanced mode (keeps all scripts)
