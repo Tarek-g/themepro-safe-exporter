@@ -1,0 +1,149 @@
+{
+  "static_assets": {
+    "./assets/wp-includes/css/dist/block-library/style.min.css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/wp-includes/css/dist/block-library/style.min.css"
+    },
+    "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
+    },
+    "./assets/wp-content/themes/pro-child/style.css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/wp-content/themes/pro-child/style.css"
+    },
+    "./assets/css": {
+      "type": "css",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/css"
+    },
+    "./assets/app.bundle.js": {
+      "type": "js",
+      "sources": [
+        "html"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/dist/assets/app.bundle.js"
+    },
+    "../../../../img/global/btn-circle-top-small.png": {
+      "type": "image",
+      "sources": [
+        "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
+      ],
+      "local_path": "/Users/img/global/btn-circle-top-small.png"
+    },
+    "../../../../img/global/btn-circle-bottom-small.png": {
+      "type": "image",
+      "sources": [
+        "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
+      ],
+      "local_path": "/Users/img/global/btn-circle-bottom-small.png"
+    },
+    "../../../../img/global/ilightbox-preloader-light.gif": {
+      "type": "image",
+      "sources": [
+        "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
+      ],
+      "local_path": "/Users/img/global/ilightbox-preloader-light.gif"
+    },
+    "../../../../img/global/ilightbox-thumb-overlay-play-light.png": {
+      "type": "image",
+      "sources": [
+        "./assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css"
+      ],
+      "local_path": "/Users/img/global/ilightbox-thumb-overlay-play-light.png"
+    },
+    "http://fonts.gstatic.com/s/ibmplexsansarabic/v13/Qw3CZRtWPQCuHme67tEYUIx3Kh0PHR9N6Ysz3PA.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/ibmplexsansarabic/v13/Qw3NZRtWPQCuHme67tEYUIx3Kh0PHR9N6YOG-eCaXME.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/lalezar/v15/zrfl0HLVx-HwTP82Yan4Jg.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/lato/v24/S6u8w4BMUTPHjxsAUi-v.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/lato/v24/S6u_w4BMUTPHjxsI5wq_FQfo.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/lato/v24/S6uyw4BMUTPHjxAwWw.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh6UVSwaPHA.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/vazirmatn/v15/Dxx78j6PP2D_kU2muijPEe1n2vVbfJRklWgzCR6T6w.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    "http://fonts.gstatic.com/s/vazirmatn/v15/Dxx78j6PP2D_kU2muijPEe1n2vVbfJRklY80CR6T6w.ttf": {
+      "type": "font",
+      "sources": [
+        "./assets/css"
+      ],
+      "local_path": null
+    },
+    ".png": {
+      "type": "other",
+      "sources": [
+        "./assets/app.bundle.js"
+      ],
+      "local_path": "/Users/tarek/app-T/theme-co-D/dist/.png"
+    }
+  },
+  "runtime_assets": [
+    "/",
+    "/assets/wp-includes/css/dist/block-library/style.min.css",
+    "/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "/assets/wp-content/themes/pro-child/style.css",
+    "/assets/css",
+    "/assets/app.bundle.js"
+  ],
+  "analysis_summary": {
+    "static_count": 19,
+    "runtime_count": 6
+  }
+}

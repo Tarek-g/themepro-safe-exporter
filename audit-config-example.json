@@ -1,0 +1,22 @@
+{
+  "source_url": "https://example.com/page",
+  "export_dir": "./dist",
+  "entry_html": "index.html",
+  "viewports": [
+    { "label": "mobile", "width": 390, "height": 844 },
+    { "label": "tablet", "width": 768, "height": 1024 },
+    { "label": "desktop", "width": 1366, "height": 900 }
+  ],
+  "interactions": [
+    ".x-accordion .x-accordion-toggle",
+    ".x-nav-tabs a",
+    ".x-toggle",
+    "[data-toggle]",
+    "details summary",
+    ".modal-trigger",
+    ".slider-next"
+  ],
+  "timeout_sec": 20,
+  "max_scroll_depth": 4,
+  "server_port": 8082
+}

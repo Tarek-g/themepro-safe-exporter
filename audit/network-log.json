@@ -1,0 +1,148 @@
+[
+  {
+    "url": "http://localhost:8082/",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756547356333,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547356364,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547356364,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547356364,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547356364,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/assets/app.bundle.js",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756547356364,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "blob:http://localhost:8082/06eea8f8-092e-4e40-8ecd-93ebf7911198",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756547356379,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756547356456,
+    "status": 200,
+    "size": "354296"
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "mobile",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756547356568,
+    "status": 200,
+    "size": 0
+  },
+  {
+    "url": "http://localhost:8082/",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "document",
+    "timestamp": 1756547363775
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-includes/css/dist/block-library/style.min.css",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547363788
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro/framework/dist/css/site/stacks/ethos.css",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547363788
+  },
+  {
+    "url": "http://localhost:8082/assets/wp-content/themes/pro-child/style.css",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547363789
+  },
+  {
+    "url": "http://localhost:8082/assets/css",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "stylesheet",
+    "timestamp": 1756547363789
+  },
+  {
+    "url": "http://localhost:8082/assets/app.bundle.js",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756547363789
+  },
+  {
+    "url": "blob:http://localhost:8082/25734f75-902f-4377-b821-484d3a479707",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756547363791,
+    "status": 200,
+    "size": "1330"
+  },
+  {
+    "url": "http://micro.local/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2?ver=6.7.2",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "font",
+    "timestamp": 1756547363845
+  },
+  {
+    "url": "http://micro.local/wp-includes/js/wp-emoji-release.min.js?ver=6.8.2",
+    "viewport": "desktop",
+    "method": "GET",
+    "resourceType": "script",
+    "timestamp": 1756547363948
+  }
+]

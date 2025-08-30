@@ -1,0 +1,108 @@
+{
+  "audit_date": "2025-08-30T09:49:34.870Z",
+  "source_url": "http://micro.local/1-2/",
+  "export_dir": "./dist",
+  "summary": {
+    "total_files": 22,
+    "used_files": 11,
+    "unused_files": 17,
+    "total_size_kb": 1409,
+    "used_size_kb": 575,
+    "unused_size_kb": 834,
+    "waste_percentage": 59
+  },
+  "largest_unused_files": [
+    {
+      "path": "assets/wp-content/themes/pro/cornerstone/assets/fonts/fa-solid-900.woff2",
+      "size": 354296,
+      "sizeKB": 346,
+      "extension": ".woff2"
+    },
+    {
+      "path": "assets/wp-content/themes/pro/cornerstone/assets/js/site/cs-classic.7.7.3.js",
+      "size": 109617,
+      "sizeKB": 107,
+      "extension": ".js"
+    },
+    {
+      "path": "assets/wp-includes/js/jquery/jquery.min.js",
+      "size": 87553,
+      "sizeKB": 86,
+      "extension": ".js"
+    },
+    {
+      "path": "assets/1-2/index.html",
+      "size": 69053,
+      "sizeKB": 67,
+      "extension": ".html"
+    },
+    {
+      "path": "index.html",
+      "size": 68374,
+      "sizeKB": 67,
+      "extension": ".html"
+    },
+    {
+      "path": "assets/s/vazirmatn/v15/Dxxo8j6PP2D_kU2muijlHcWWIGroew.woff2",
+      "size": 34444,
+      "sizeKB": 34,
+      "extension": ".woff2"
+    },
+    {
+      "path": "assets/wp-content/themes/pro/framework/dist/js/site/x.js",
+      "size": 31719,
+      "sizeKB": 31,
+      "extension": ".js"
+    },
+    {
+      "path": "assets/wp-includes/js/wp-emoji-release.min.js",
+      "size": 19251,
+      "sizeKB": 19,
+      "extension": ".js"
+    },
+    {
+      "path": "assets/s/lato/v24/S6u8w4BMUTPHjxsAXC-qNiXg7Q.woff2",
+      "size": 14860,
+      "sizeKB": 15,
+      "extension": ".woff2"
+    },
+    {
+      "path": "assets/s/lato/v24/S6uyw4BMUTPHjx4wXiWtFCc.woff2",
+      "size": 13980,
+      "sizeKB": 14,
+      "extension": ".woff2"
+    }
+  ],
+  "unused_files_by_type": {
+    ".woff2": {
+      "count": 5,
+      "total_size_kb": 423
+    },
+    ".js": {
+      "count": 7,
+      "total_size_kb": 269
+    },
+    ".html": {
+      "count": 2,
+      "total_size_kb": 134
+    },
+    "no-extension": {
+      "count": 1,
+      "total_size_kb": 6
+    },
+    ".json": {
+      "count": 2,
+      "total_size_kb": 4
+    }
+  },
+  "console_errors": [],
+  "network_requests": 18,
+  "viewports_tested": [
+    "mobile",
+    "desktop"
+  ],
+  "recommendations": [
+    "نسبة الملفات غير المستخدمة عالية (أكثر من 30%) - راجع منطق جمع الأصول",
+    "5 خط غير مستخدم - راجع تحميل الخطوط المشروط"
+  ]
+}

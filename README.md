@@ -199,9 +199,46 @@ node serve-export.js
 - Enables proper relative URL resolution
 - Required for testing dynamic features
 
-### Static Export Auditor
+### Arabic Post-Export Auditor (وكيل فحص ما بعد التصدير)
 
-Analyze and optimize your exported content with comprehensive auditing:
+A separate, read-only audit agent that analyzes export directories independently:
+
+```bash
+# Basic audit (Arabic interface)
+node post-export-auditor.js "http://micro.local/1-2/" "./dist"
+
+# Advanced audit with configuration
+node post-export-auditor.js audit-config-example.json
+```
+
+**Key Features (Arabic UI):**
+- 📋 **File Inventory**: Complete catalog of all exported files
+- 🔍 **Static Analysis**: HTML/CSS/JS dependency mapping
+- 🔬 **Runtime Discovery**: Headless browser testing with interactions
+- 📷 **Visual Comparison**: Screenshots and diff analysis
+- 📊 **Waste Analysis**: Identifies unused files with size breakdown
+- 🏷️ **Asset Classification**: Groups files by type and usage
+
+**Audit Outputs (in `audit/` directory):**
+- `audit-report.html` - Visual report in Arabic
+- `audit-report.json` - Machine-readable data
+- `asset-graph.json` - Complete dependency mapping
+- `network-log.json` - Runtime network requests
+- `screenshots/` - Viewport screenshots
+- `visual-diff/` - Original vs local comparison
+
+**Sample Results:**
+```
+📊 ملخص الفحص:
+   📁 إجمالي الملفات: 22
+   ✅ مستخدمة: 11 (575 KB)
+   🗑️  غير مستخدمة: 17 (834 KB)
+   📈 نسبة الهدر: 59%
+```
+
+### Static Export Auditor (English)
+
+The original comprehensive audit agent:
 
 ```bash
 # Basic audit of exported content

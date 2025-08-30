@@ -115,11 +115,74 @@ When testing your export locally:
 
 ## 🔍 **Static Export Auditor**
 
-### Basic Audit
+### English Auditor (Original)
 
 ```bash
-# Audit exported content against original
-node audit-export.js "https://example.com/page" "./dist"
+# Basic audit of exported content
+node audit-export.js "https://original-url.com" "./dist"
+
+# Advanced audit with custom configuration
+node audit-export.js config.json
+```
+
+### Arabic Post-Export Auditor (فاحص ما بعح التصدير)
+
+A separate, read-only audit agent with Arabic interface:
+
+```bash
+# فحص أساسي للمحتوى المصدّر
+node post-export-auditor.js "http://micro.local/1-2/" "./dist"
+
+# فحص متقدم بإعدادات مخصصة
+node post-export-auditor.js audit-config-example.json
+```
+
+**Unique Features:**
+- 💫 **Read-Only Operation**: Never modifies export directory
+- 📋 **Independent Analysis**: Works separately from export process
+- 🇦🇪 **Arabic Interface**: Native Arabic reporting and console output
+- 📁 **Separate Output**: All reports saved to `audit/` directory
+- 🔄 **Repeatable**: Can re-run anytime without affecting exports
+
+**Arabic Configuration Example:**
+
+Create `audit-config-arabic.json`:
+```json
+{
+  "source_url": "http://micro.local/1-2/",
+  "export_dir": "./dist",
+  "entry_html": "index.html",
+  "viewports": [
+    { "label": "mobile", "width": 390, "height": 844 },
+    { "label": "tablet", "width": 768, "height": 1024 },
+    { "label": "desktop", "width": 1366, "height": 900 }
+  ],
+  "interactions": [
+    ".x-accordion .x-accordion-toggle",
+    ".x-nav-tabs a",
+    ".x-toggle",
+    "[data-x-toggle]",
+    ".modal-trigger"
+  ],
+  "timeout_sec": 20,
+  "max_scroll_depth": 4
+}
+```
+
+**Sample Arabic Output:**
+```
+🔍 بدء فحص ما بعد التصدير...
+📁 مجلد التصدير: /path/to/dist
+📋 جاري جرد الملفات...
+📈 تم جرد 22 ملف
+🔍 التحليل الثابت للأصول...
+📊 وُجد 19 أصل في التحليل الثابت
+🔬 تحليل وقت التشغيل...
+📊 ملخص الفحص:
+   📁 إجمالي الملفات: 22
+   ✅ مستخدمة: 11 (575 KB)
+   🗑️  غير مستخدمة: 17 (834 KB)
+   📈 نسبة الهدر: 59%
 ```
 
 ### Advanced Audit with Configuration
