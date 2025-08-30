@@ -125,37 +125,42 @@ node audit-export.js "https://original-url.com" "./dist"
 node audit-export.js config.json
 ```
 
-### Arabic Post-Export Auditor (فاحص ما بعح التصدير)
+### Post-Export Auditor (English)
 
-A separate, read-only audit agent with Arabic interface:
+Independent audit agent with comprehensive English reports:
 
 ```bash
-# فحص أساسي للمحتوى المصدّر
-node post-export-auditor.js "http://micro.local/1-2/" "./dist"
+# Comprehensive audit with English reports
+node post-export-auditor.js "http://original-url.com" "./exported-directory"
 
-# فحص متقدم بإعدادات مخصصة
-node post-export-auditor.js audit-config-example.json
+# Quick audit of current export
+node post-export-auditor.js "http://micro.local/1-2/" "./1-2"
 ```
 
 **Unique Features:**
 - 💫 **Read-Only Operation**: Never modifies export directory
 - 📋 **Independent Analysis**: Works separately from export process
-- 🇦🇪 **Arabic Interface**: Native Arabic reporting and console output
+- 🇺🇸 **English Interface**: Professional English reporting and console output
 - 📁 **Separate Output**: All reports saved to `audit/` directory
 - 🔄 **Repeatable**: Can re-run anytime without affecting exports
+- 📱 **7-Viewport Testing**: Comprehensive responsive analysis across all breakpoints
 
-**Arabic Configuration Example:**
+**English Configuration Example:**
 
-Create `audit-config-arabic.json`:
+Create `audit-config-english.json`:
 ```json
 {
   "source_url": "http://micro.local/1-2/",
-  "export_dir": "./dist",
+  "export_dir": "./1-2",
   "entry_html": "index.html",
   "viewports": [
+    { "label": "xs", "width": 375, "height": 667 },
+    { "label": "sm", "width": 480, "height": 854 },
+    { "label": "md", "width": 768, "height": 1024 },
+    { "label": "lg", "width": 980, "height": 1200 },
+    { "label": "xl", "width": 1366, "height": 900 },
     { "label": "mobile", "width": 390, "height": 844 },
-    { "label": "tablet", "width": 768, "height": 1024 },
-    { "label": "desktop", "width": 1366, "height": 900 }
+    { "label": "desktop", "width": 1440, "height": 900 }
   ],
   "interactions": [
     ".x-accordion .x-accordion-toggle",
@@ -169,20 +174,27 @@ Create `audit-config-arabic.json`:
 }
 ```
 
-**Sample Arabic Output:**
+**Sample English Output:**
 ```
-🔍 بدء فحص ما بعد التصدير...
-📁 مجلد التصدير: /path/to/dist
-📋 جاري جرد الملفات...
-📈 تم جرد 22 ملف
-🔍 التحليل الثابت للأصول...
-📊 وُجد 19 أصل في التحليل الثابت
-🔬 تحليل وقت التشغيل...
-📊 ملخص الفحص:
-   📁 إجمالي الملفات: 22
-   ✅ مستخدمة: 11 (575 KB)
-   🗑️  غير مستخدمة: 17 (834 KB)
-   📈 نسبة الهدر: 59%
+🔍 Starting post-export audit...
+📁 Export directory: /path/to/1-2
+📋 Cataloging files...
+📈 Inventoried 22 files
+🔍 Static asset analysis...
+📊 Found 19 assets in static analysis
+🔬 Runtime analysis...
+📊 Export Analysis Summary:
+   📁 Total files: 22
+   ✅ Used: 11 (575 KB)
+   🗑️  Unused: 17 (834 KB)
+   📈 Waste ratio: 59%
+
+📱 Responsive Breakdown:
+   XS (375px): 8 assets used
+   SM (480px): 9 assets used  
+   MD (768px): 11 assets used
+   LG (980px): 11 assets used
+   XL (1366px): 11 assets used
 ```
 
 ### Advanced Audit with Configuration
