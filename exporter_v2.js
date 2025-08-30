@@ -40,8 +40,19 @@ function parseSize(flag) {
   if (!w || !h) return null;
   return { width: w, height: h };
 }
-const MOBILE = parseSize('--mobile') || { width: 390, height: 844 };     // iPhone-ish
-const DESKTOP = parseSize('--desktop') || { width: 1366, height: 900 };
+
+// Updated responsive design breakpoints according to project specifications
+const BREAKPOINTS = {
+  xs: { width: 375, height: 667 },     // ≤480px - small phones
+  sm: { width: 480, height: 854 },     // ≤767px - large phones  
+  md: { width: 768, height: 1024 },    // ≤979px - tablets
+  lg: { width: 980, height: 1200 },    // ≤1200px - small desktops
+  xl: { width: 1366, height: 900 }     // >1200px - large screens
+};
+
+const MOBILE = parseSize('--mobile') || BREAKPOINTS.xs;
+const TABLET = parseSize('--tablet') || BREAKPOINTS.md;
+const DESKTOP = parseSize('--desktop') || BREAKPOINTS.xl;
 
 const DIST_DIR = 'dist';
 const ASSETS_DIR = path.join(DIST_DIR, 'assets');
@@ -111,6 +122,24 @@ async function autoScroll(page) {
       step();
     });
   });
+}
+
+async function renderMultiViewport(browser, targetUrl) {
+  console.log('🔄 Rendering multiple viewports for comprehensive responsive asset capture...');
+  
+  const results = [];
+  
+  // Render all breakpoints to capture responsive assets
+  for (const [name, size] of Object.entries(BREAKPOINTS)) {
+    console.log(`📱 Rendering ${name} viewport (${size.width}x${size.height})`);
+    const result = await renderAndCollect(browser, targetUrl, size);
+    results.push({ name, size, ...result });
+    
+    // Small delay between renders to avoid overwhelming the server
+    await new Promise(resolve => setTimeout(resolve, 500));
+  }
+  
+  return results;
 }
 
 async function renderAndCollect(browser, targetUrl, size) {
@@ -184,18 +213,31 @@ async function main() {
   await fs.emptyDir(DIST_DIR);
   await fs.ensureDir(ASSETS_DIR);
 
+  console.log(`🚀 Starting export of: ${url}`);
+  console.log(`📐 Using responsive breakpoints: XS(375), SM(480), MD(768), LG(980), XL(1366)`);
+
   const browser = await chromium.launch();
-  const passMobile = await renderAndCollect(browser, url, MOBILE);
-  const passDesktop = await renderAndCollect(browser, url, DESKTOP);
+  
+  // Multi-viewport rendering for comprehensive responsive capture
+  const viewportResults = await renderMultiViewport(browser, url);
+  
   await browser.close();
 
-  // Prefer desktop DOM as base output
-  let baseHTML = passDesktop.html;
+  // Use the largest viewport (desktop) as base HTML
+  const baseResult = viewportResults.find(r => r.name === 'xl') || viewportResults[viewportResults.length - 1];
+  let baseHTML = baseResult.html;
+
+  // Collect all resources from all viewports
+  const allResources = new Set();
+  viewportResults.forEach(result => {
+    result.resources.forEach(resource => allResources.add(resource));
+  });
+
+  console.log(`📆 Captured ${allResources.size} unique resources across ${viewportResults.length} viewports`);
 
   // Union of resources from performance + DOM parsing
-  const fromPerf = new Set([...passMobile.resources, ...passDesktop.resources]);
   const { dom, doc, assets: domAssets } = extractDomAssets(url, baseHTML);
-  const allAssets = new Set([...domAssets, ...fromPerf].filter(Boolean));
+  const combinedAssets = new Set([...domAssets, ...allResources].filter(Boolean));
 
   // Remove <base> tags to avoid path confusion
   doc.querySelectorAll('base').forEach(b => b.remove());
@@ -208,7 +250,9 @@ async function main() {
   // Map for rewriting
   const rewriteMap = new Map();
 
-  for (const assetUrl of allAssets) {
+  console.log(`⬇️ Downloading ${combinedAssets.size} assets...`);
+
+  for (const assetUrl of combinedAssets) {
     try {
       const outPath = localAssetPath(assetUrl);
       const rel = relFromIndex(assetUrl);
@@ -217,16 +261,19 @@ async function main() {
       // Inline tiny images/fonts to harden portability
       if ((isLikelyImage(assetUrl) || isLikelyFont(assetUrl)) && buffer.length <= SMALL_INLINE_MAX) {
         rewriteMap.set(assetUrl, toDataUri(buffer, contentType, isLikelyImage(assetUrl) ? 'png' : 'woff2'));
+        console.log(`📦 Inlined small asset: ${assetUrl} (${buffer.length} bytes)`);
       } else {
         await ensureDirAndWrite(outPath, buffer);
         rewriteMap.set(assetUrl, rel);
         if (isLikelyCSS(assetUrl)) cssFiles.push(outPath);
         else if (isLikelyJS(assetUrl)) jsFiles.push(outPath);
         else otherFiles.push(outPath);
+        console.log(`💾 Downloaded: ${assetUrl}`);
       }
     } catch (e) {
       // If third-party blocked by CORS for fetch, keep original URL (still works online)
       rewriteMap.set(assetUrl, assetUrl);
+      console.log(`⚠️ CORS blocked, keeping original URL: ${assetUrl}`);
     }
   }
 
@@ -291,14 +338,25 @@ async function main() {
   const finalHTML = '<!doctype html>\n' + doc.documentElement.outerHTML;
   await fs.writeFile(path.join(DIST_DIR, outFileName), finalHTML, 'utf-8');
 
-  // Manifest (للتوثيق فقط)
+  // Enhanced manifest with viewport information
   await fs.writeJson(path.join(DIST_DIR, 'manifest.json'), {
     sourceUrl: url,
     mode: MODE,
-    note: "Safe Mirror export. Third-party blocked downloads keep original remote URLs.",
+    viewports: viewportResults.map(r => ({ 
+      name: r.name, 
+      size: r.size, 
+      resourceCount: r.resources.length 
+    })),
+    totalAssets: combinedAssets.size,
+    inlinedAssets: Array.from(rewriteMap.entries()).filter(([, v]) => v.startsWith('data:')).length,
+    note: "Safe Mirror export with multi-viewport responsive asset capture. Third-party blocked downloads keep original remote URLs.",
+    exportDate: new Date().toISOString()
   }, { spaces: 2 });
 
   console.log(`✅ Export complete → ${path.join(DIST_DIR, outFileName)} (mode=${MODE})`);
+  console.log(`📱 Responsive viewports tested: ${viewportResults.length}`);
+  console.log(`💾 Total assets downloaded: ${combinedAssets.size}`);
+  console.log(`📦 Assets inlined as data URIs: ${Array.from(rewriteMap.values()).filter(v => v.startsWith('data:')).length}`);
 }
 
 main().catch(err => {
